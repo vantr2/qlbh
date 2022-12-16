@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->unique('email');
+        Schema::create('users', function ($collection) {
+            $collection->index('email');
         });
     }
 
