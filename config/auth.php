@@ -12,6 +12,9 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
+    'admin' => [
+        'default_password' => env('ADMIN_PASSWORD', 'VcCorp@2022'),
+    ],
 
     'defaults' => [
         'guard' => 'web',

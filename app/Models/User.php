@@ -12,6 +12,9 @@ class User extends Eloquent implements AuthenticatableContract
     use AuthenticableTrait;
     use Notifiable;
 
+    const ADMIN = 1;
+    const NORMAL_USER = 2;
+
     protected $connection = 'mongodb';
     /**
      * The attributes that are mass assignable.
@@ -22,6 +25,7 @@ class User extends Eloquent implements AuthenticatableContract
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
