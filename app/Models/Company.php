@@ -14,4 +14,9 @@ class Company extends EloquentModel
         'address',
         'established_year'
     ];
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
 }

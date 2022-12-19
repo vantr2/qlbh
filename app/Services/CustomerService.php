@@ -8,10 +8,10 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class CompanyService
+class CustomerService
 {
     /**
-     * store company with data
+     * store customer with data
      *
      * @param  array $data
      * @return bool true: created | false: error
@@ -22,30 +22,30 @@ class CompanyService
             if (isset($data['_id'])) {
                 $id = $data['_id'];
                 unset($data['_id']);
-                Company::where('_id', $id)->update($data);
+                Customer::where('_id', $id)->update($data);
             } else {
-                Company::create($data);
+                Customer::create($data);
             }
             return true;
         } catch (Exception $ex) {
-            Log::error('storeCompany: ' . $ex);
+            Log::error('storeCustomer: ' . $ex);
         }
         return false;
     }
 
     /**
-     * Get company detail
+     * Get customer detail
      *
      * @param  string $id
-     * @return Company
+     * @return Customer
      */
     public function getDetail($id)
     {
-        return Company::findOrFail($id);
+        return Customer::findOrFail($id);
     }
 
     /**
-     * Delete company by id
+     * Delete customer by id
      *
      * @param  string $id
      * @return bool true: deleted | false: error
@@ -53,11 +53,11 @@ class CompanyService
     public function delete($id)
     {
         try {
-            Company::where('_id', $id)->delete();
-            Customer::where('company_id', $id)->update(['company_id', null]);
+            Customer::where('_id', $id)->delete();
+            // update order
             return true;
         } catch (Exception $ex) {
-            Log::error('deleteCompany: ' . $ex);
+            Log::error('deleteCustomer: ' . $ex);
         }
         return false;
     }
