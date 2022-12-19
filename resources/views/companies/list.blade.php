@@ -11,17 +11,19 @@
             {{ Session::get('fail') }}
         </div>
     @endif
-    <div class="container">
+    <div>
         <h1 class="mb-3">{{ __('Company Management') }}</h1>
         <a href="{{ route('companies.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
 
-        <table id="tbl_companies" class="table table-hover table-bordered">
+        <table id="tbl_companies" class="table table-hover table-bordered w-100">
             <thead>
                 <tr>
                     <th>{{ __('Company Name') }}</th>
                     <th>{{ __('Company Address') }}</th>
                     <th>{{ __('Established Year') }}</th>
-                    <th></th>
+                    <th>{{ __('Created By') }}</th>
+                    <th>{{ __('Updated By') }}</th>
+                    <th>{{ __('Action') }}</th>
                 </tr>
             </thead>
         </table>
@@ -55,6 +57,14 @@
                     {
                         data: 'established_year',
                         name: 'established_year'
+                    },
+                    {
+                        data: 'created_by',
+                        name: 'created_by'
+                    },
+                    {
+                        data: 'updated_by',
+                        name: 'updated_by'
                     },
                     {
                         data: 'action',

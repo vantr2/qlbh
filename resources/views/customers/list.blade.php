@@ -11,11 +11,23 @@
             {{ Session::get('fail') }}
         </div>
     @endif
-    <div class="container">
+    @if (Session::has('import_error'))
+        <div class="alert alert-danger">
+            {!! Session::get('import_error') !!}
+        </div>
+    @endif
+    <div>
         <h1 class="mb-3">{{ __('Customer Management') }}</h1>
-        <a href="{{ route('customers.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
+        <div class="d-flex">
+            <a href="{{ route('customers.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
+            <a href="{{ route('customers.export') }}" class="btn btn-primary mb-3 ms-2">{{ __('Export') }}</a>
+            <button type="button" class="btn btn-primary mb-3 ms-2" data-bs-toggle="modal"
+                data-bs-target="#import_customer_modal">
+                {{ __('Import') }}
+            </button>
+        </div>
 
-        <table id="tbl_customers" class="table table-hover table-bordered">
+        <table id="tbl_customers" class="table table-hover table-bordered w-100">
             <thead>
                 <tr>
                     <th>{{ __('Name') }}</th>
@@ -24,11 +36,12 @@
                     <th>{{ __('Birthday') }}</th>
                     <th>{{ __('Type') }}</th>
                     <th>{{ __('Workplace') }}</th>
-                    <th></th>
+                    <th>{{ __('Action') }}</th>
                 </tr>
             </thead>
         </table>
     </div>
+    @include('customers.import_customer_modal')
 @endsection
 
 @push('scripts')

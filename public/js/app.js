@@ -3259,6 +3259,21 @@ function withinMaxClamp(min, value, max) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+window.doPostAjax = function (url, data, success, error) {
+  $.ajax({
+    url: url,
+    method: 'post',
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    },
+    data: data,
+    success: success,
+    error: error
+  });
+};
+window.doGetAjax = function (url, successCallBack, errorCallback) {
+  $.get(url).done(successCallBack).fail(errorCallback);
+};
 
 /***/ }),
 

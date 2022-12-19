@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div>
         <h1 class="mb-3">{{ __('Create Company') }}</h1>
         <a class="btn btn-secondary mb-3" href="{{ route('companies.list') }}">{{ __('Back') }}</a>
         <form action="{{ route('companies.store') }}" method="post">

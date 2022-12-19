@@ -3,7 +3,7 @@
     use App\Models\Customer;
 @endphp
 @section('content')
-    <div class="container">
+    <div>
         <h1 class="mb-3">{{ __('Update Customer') }}</h1>
         <a class="btn btn-secondary mb-3" href="{{ route('customers.list') }}">{{ __('Back') }}</a>
         <form action="{{ route('customers.store') }}" method="post">
