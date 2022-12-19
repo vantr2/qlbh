@@ -28,10 +28,49 @@ class Customer extends EloquentModel
         'address',
         'type',
         'company_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Type to text
+     *
+     * @return string
+     */
+    public function typeToText()
+    {
+        $typeToText = [Customer::VIP => __('VIP'), Customer::NORMAL => __('Normal')];
+        return $typeToText[intval($this->type)];
+    }
+
+    /**
+     * Gender to text
+     *
+     * @return string
+     */
+    public function genderToText()
+    {
+        $genderToText = [
+            Customer::MALE => __('Male'),
+            Customer::FEMALE => __('Female'),
+            Customer::OTHER => __('Other')
+        ];
+        return $genderToText[intval($this->gender)];
+    }
+
+    /**
+     * Format date
+     * @param string $date
+     * 
+     * @return string
+     */
+    public function formatDate($date)
+    {
+        return date('d/m/Y', strtotime($date));
     }
 }

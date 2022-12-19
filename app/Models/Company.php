@@ -12,7 +12,9 @@ class Company extends EloquentModel
     protected $fillable = [
         'name',
         'address',
-        'established_year'
+        'established_year',
+        'created_by',
+        'updated_by',
     ];
 
     public function customers()

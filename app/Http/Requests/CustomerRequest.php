@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\Utils;
 use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -38,6 +39,7 @@ class CustomerRequest extends FormRequest
                 'required',
                 Rule::in([Customer::VIP, Customer::NORMAL])
             ],
+            'company_id' => ['required', 'exists:companies,_id'],
         ];
     }
 
@@ -49,5 +51,6 @@ class CustomerRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->request->remove('_token');
+        Utils::attachUserAction($this);
     }
 }

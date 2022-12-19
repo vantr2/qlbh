@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\Utils;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -40,5 +41,6 @@ class CompanyRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->request->remove('_token');
+        Utils::attachUserAction($this);
     }
 }

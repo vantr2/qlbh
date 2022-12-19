@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Helpers\Utils;
 use App\Models\Company;
 use App\Models\Customer;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\DataTables;
 
 class CompanyService
 {
@@ -60,5 +62,24 @@ class CompanyService
             Log::error('deleteCompany: ' . $ex);
         }
         return false;
+    }
+
+    /**
+     * Build data for datatable with server side processing
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function buildData()
+    {
+        return DataTables::of(Company::query())
+            ->addColumn('action', function ($company) {
+                return Utils::renderActionHtml(
+                    route('companies.detail', ['id' => $company->id]),
+                    route('companies.delete', ['id' => $company->id]),
+                    'confirmDeleteCompany(this)'
+                );
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 }

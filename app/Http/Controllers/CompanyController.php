@@ -68,16 +68,7 @@ class CompanyController extends Controller
      */
     public function renderData()
     {
-        return DataTables::of(Company::select(['name', 'address', 'established_year']))
-            ->addColumn('action', function ($company) {
-                return Utils::renderActionHtml(
-                    route('companies.detail', ['id' => $company->id]),
-                    route('companies.delete', ['id' => $company->id]),
-                    'confirmDeleteCompany(this)'
-                );
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+        return $this->companySerivce->buildData();
     }
 
     /**
