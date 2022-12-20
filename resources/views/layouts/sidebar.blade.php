@@ -10,6 +10,11 @@
             'route' => route('customers.list'),
             'prefix' => 'customers',
         ],
+        [
+            'name' => __('Product'),
+            'route' => route('products.list'),
+            'prefix' => 'products',
+        ],
     ];
 @endphp
 
