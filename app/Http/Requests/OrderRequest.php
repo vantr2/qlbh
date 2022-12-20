@@ -3,9 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Helpers\Utils;
+use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class OrderRequest extends FormRequest
 {
@@ -26,7 +28,11 @@ class OrderRequest extends FormRequest
      */
     public function rules()
     {
-        return [];
+        return [
+            'customer_id' => ['required', 'exists:customers,_id'],
+            'order_date' => ['required', 'date'],
+            'total' => ['required', 'min:0', 'numeric'],
+        ];
     }
 
     /**
@@ -38,5 +44,30 @@ class OrderRequest extends FormRequest
     {
         $this->request->remove('_token');
         Utils::attachUserAction($this);
+        $this->merge([
+            'details' => $this->constructDetailData(),
+        ]);
+        $this->request->remove('detail_data');
+    }
+
+    /**
+     * Construct detail data
+     *
+     * @return array
+     */
+    public function constructDetailData()
+    {
+        $detailData = [];
+        $rawData = json_decode($this->detail_data, true);
+        foreach ($rawData as $item) {
+            $row = [
+                'product_id' => $item['id'],
+                'product_qty' => $item['quantity'],
+                'product_amount' => $item['amount'],
+                'product_price' => $item['price'],
+            ];
+            $detailData[] = $row;
+        }
+        return $detailData;
     }
 }

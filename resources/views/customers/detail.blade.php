@@ -9,7 +9,6 @@
                 <h4 class="mb-0">{{ __('Update Customer') }}</h4>
             </div>
             <div class="card-body">
-                <a class="btn btn-secondary mb-3" href="{{ route('customers.list') }}">{{ __('Back') }}</a>
                 <form action="{{ route('customers.store') }}" method="post">
                     @csrf
                     <input type="hidden" name="_id" value="{{ $customerInfo->id }}">
@@ -107,13 +106,14 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="type" class="form-label">{{ __('Type') }}</label>
-                                <select name="type" class='form-select form-control'>
+                                <select name="type" class='form-select form-control @error('type') is-invalid @enderror'>
                                     <option value="">{{ __('Please choose...') }}</option>
                                     <option value="{{ Customer::VIP }}"
-                                        {{ $customerInfo->type == Customer::VIP ? 'selected' : '' }}>{{ __('VIP') }}
+                                        {{ old('type', $customerInfo->type) == Customer::VIP ? 'selected' : '' }}>
+                                        {{ __('VIP') }}
                                     </option>
                                     <option value="{{ Customer::NORMAL }}"
-                                        {{ $customerInfo->type == Customer::NORMAL ? 'selected' : '' }}>
+                                        {{ old('type', $customerInfo->type) == Customer::NORMAL ? 'selected' : '' }}>
                                         {{ __('Normal') }}
                                     </option>
                                 </select>
@@ -128,10 +128,11 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="company_id" class="form-label">{{ __('Workplace') }}</label>
-                                <select name="company_id" class='form-select form-control'>
+                                <select name="company_id"
+                                    class='form-select form-control @error('company_id') is-invalid @enderror'>
                                     @foreach ($companies as $company)
                                         <option value="{{ $company->id }}"
-                                            {{ $customerInfo->company_id == $company->id ? 'selected' : '' }}>
+                                            {{ old('company_id', $customerInfo->company_id) == $company->id ? 'selected' : '' }}>
                                             {{ $company->name }}
                                         </option>
                                     @endforeach
@@ -144,8 +145,10 @@
                             </div>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                    <div class="d-flex mt-4">
+                        <a class="btn btn-secondary px-3" href="{{ route('customers.list') }}">{{ __('Back') }}</a>
+                        <button type="submit" class="btn btn-primary ms-2">{{ __('Submit') }}</button>
+                    </div>
                 </form>
             </div>
         </div>

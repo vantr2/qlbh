@@ -10,14 +10,16 @@ class OrderDetail extends EloquentModel
     protected $collection = 'order_details';
 
     protected $fillable = [
-        'customer_id',
+        'order_id',
         'product_id',
         'product_qty',
+        'product_price',
+        'product_amount',
     ];
 
-    public function customer()
+    public function order()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Order::class);
     }
 
     public function product()

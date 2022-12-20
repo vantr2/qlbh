@@ -47,4 +47,15 @@ class Utils
             ]);
         }
     }
+
+    /**
+     * Format date
+     * 
+     * @param string $date
+     * @return string
+     */
+    public static function formatDate($date)
+    {
+        return date('d/m/Y', strtotime($date));
+    }
 }

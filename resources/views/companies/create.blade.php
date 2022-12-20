@@ -7,7 +7,6 @@
                 <h4 class="mb-0">{{ __('Create Company') }}</h4>
             </div>
             <div class="card-body">
-                <a class="btn btn-secondary mb-3" href="{{ route('companies.list') }}">{{ __('Back') }}</a>
                 <form action="{{ route('companies.store') }}" method="post">
                     @csrf
                     <div class="row">
@@ -38,8 +37,7 @@
                             <div class="mb-3">
                                 <label for="established_year" class="form-label">{{ __('Established Year') }}</label>
                                 <input type="number" class="form-control @error('established_year') is-invalid @enderror"
-                                    id="established_year" name="established_year"
-                                    value="{{ old('established_year', '') }}">
+                                    id="established_year" name="established_year" value="{{ old('established_year', '') }}">
                                 @error('established_year')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -48,8 +46,10 @@
                             </div>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                    <div class="d-flex mt-4">
+                        <a class="btn btn-secondary px-3" href="{{ route('companies.list') }}">{{ __('Back') }}</a>
+                        <button type="submit" class="btn btn-primary ms-2">{{ __('Submit') }}</button>
+                    </div>
                 </form>
             </div>
         </div>

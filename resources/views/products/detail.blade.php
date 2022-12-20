@@ -8,7 +8,6 @@
                     <h4 class="mb-0">{{ __('Update Product') }}</h4>
                 </div>
                 <div class="card-body">
-                    <a class="btn btn-secondary mb-3" href="{{ route('products.list') }}">{{ __('Back') }}</a>
                     <form action="{{ route('products.store') }}" method="post">
                         <input type="hidden" name="_id" value="{{ $productInfo->id }}">
                         @csrf
@@ -54,8 +53,10 @@
                             </div>
 
                         </div>
-
-                        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                        <div class="d-flex mt-4">
+                            <a class="btn btn-secondary px-3" href="{{ route('products.list') }}">{{ __('Back') }}</a>
+                            <button type="submit" class="btn btn-primary ms-2">{{ __('Submit') }}</button>
+                        </div>
                     </form>
                 </div>
             </div>

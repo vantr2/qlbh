@@ -6,6 +6,7 @@ use App\Exports\ErrorWhenImport;
 use App\Helpers\Utils;
 use App\Models\Company;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,18 +17,31 @@ class OrderService
     /**
      * store order with data
      *
-     * @param  array $data
+     * @param  array $orderData
+     * @param  array $detailData
      * @return bool true: created | false: error
      */
-    public function store($data)
+    public function store($orderData, $detailData)
     {
         try {
-            if (isset($data['_id'])) {
-                $id = $data['_id'];
-                unset($data['_id']);
-                Order::where('_id', $id)->update($data);
+            if (isset($orderData['_id'])) {
+                $orderId = $orderData['_id'];
+                unset($orderData['_id']);
+                Order::where('_id', $orderId)->update($orderData);
             } else {
-                Order::create($data);
+                $order = Order::create($orderData);
+                $orderId = $order->id;
+            }
+
+            foreach ($detailData as $item) {
+                OrderDetail::updateOrCreate(
+                    ['order_id' => $orderId, 'product_id' => $item['product_id']],
+                    [
+                        'product_qty' => $item['product_qty'],
+                        'product_amount' => $item['product_amount'],
+                        'product_price' => $item['product_price'],
+                    ]
+                );
             }
             return true;
         } catch (Exception $ex) {
@@ -44,7 +58,9 @@ class OrderService
      */
     public function getDetail($id)
     {
-        return Order::findOrFail($id);
+        $order = Order::with('details', 'details.product', 'customer')->findOrFail($id);
+        $order->detail_data = $this->constructHiddenDetail($order->details);
+        return $order;
     }
 
     /**
@@ -57,7 +73,6 @@ class OrderService
     {
         try {
             Order::where('_id', $id)->delete();
-            // update order
             return true;
         } catch (Exception $ex) {
             Log::error('deleteOrder: ' . $ex);
@@ -74,7 +89,10 @@ class OrderService
     {
         return DataTables::of(Order::query()->with('customer'))
             ->addColumn('customer_name', function ($order) {
-                return $order->customer->first_name . ' ' . $order->customer->first_name;
+                if($order->customer){
+                    return $order->customer->first_name . ' ' . $order->customer->last_name;
+                }
+                return null;
             })
             ->addColumn('action', function ($order) {
                 return Utils::renderActionHtml(
@@ -84,7 +102,7 @@ class OrderService
                 );
             })
             ->editColumn('order_date', function ($order) {
-                return $order->formatDate($order->order_date);
+                return Utils::formatDate($order->order_date);
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -106,5 +124,27 @@ class OrderService
         (new ErrorWhenImport($failures))->store($filePath . '/' . $fileName);
 
         return $fileName;
+    }
+
+    /**
+     * Construct hidden detail
+     *
+     * @param  OrderDetails $details
+     * @return string
+     */
+    private function constructHiddenDetail($details)
+    {
+        $hiddenData = [];
+        foreach ($details as $detail) {
+            $item = [
+                'id' => $detail->product_id,
+                'name' => $detail->product->name,
+                'price' => $detail->product_price,
+                'quantity' => $detail->product_qty,
+                'amount' => $detail->product_amount,
+            ];
+            $hiddenData[] = $item;
+        }
+        return json_encode($hiddenData);
     }
 }

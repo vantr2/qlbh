@@ -11003,3 +11003,31 @@ a[data-toggle=collapse] {
 td {
   vertical-align: middle !important;
 }
+
+.dataTable th {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.total-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.total-container strong {
+  font-size: 1.5rem;
+}
+.total-container input {
+  border: none;
+  font-size: 1.25rem;
+  text-align: right;
+  display: table-column;
+  padding: 0;
+  cursor: default;
+}
+.total-container input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}

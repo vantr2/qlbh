@@ -62,15 +62,4 @@ class Customer extends EloquentModel
         ];
         return $genderToText[intval($this->gender)];
     }
-
-    /**
-     * Format date
-     * @param string $date
-     * 
-     * @return string
-     */
-    public function formatDate($date)
-    {
-        return date('d/m/Y', strtotime($date));
-    }
 }

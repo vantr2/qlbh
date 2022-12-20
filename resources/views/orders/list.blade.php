@@ -87,10 +87,6 @@
                             name: 'updated_by'
                         },
                         {
-                            data: 'workplace',
-                            name: 'workplace'
-                        },
-                        {
                             data: 'action',
                             name: 'action'
                         }

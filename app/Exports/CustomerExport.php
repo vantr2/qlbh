@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Helpers\Utils;
 use App\Models\Customer;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -28,13 +29,13 @@ class CustomerExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMap
                 $customer->first_name . ' ' . $customer->last_name,
                 $customer->age,
                 $customer->genderToText(),
-                $customer->formatDate($customer->birthday),
+                Utils::formatDate($customer->birthday),
                 $customer->address,
                 $customer->typeToText(),
                 $customer->company->name,
-                $customer->formatDate($customer->created_at),
+                Utils::formatDate($customer->created_at),
                 $customer->created_by,
-                $customer->formatDate($customer->updated_at),
+                Utils::formatDate($customer->updated_at),
                 $customer->updated_by,
             ],
         ];

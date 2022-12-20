@@ -6,6 +6,7 @@ use App\Exports\ErrorWhenImport;
 use App\Helpers\Utils;
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\Order;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -57,7 +58,6 @@ class CustomerService
     {
         try {
             Customer::where('_id', $id)->delete();
-            // update order
             return true;
         } catch (Exception $ex) {
             Log::error('deleteCustomer: ' . $ex);
@@ -77,7 +77,10 @@ class CustomerService
                 return $customer->first_name . ' ' . $customer->last_name;
             })
             ->addColumn('workplace', function ($customer) {
-                return $customer->company->name;
+                if($customer->company){
+                    return $customer->company->name;
+                }
+                return null;
             })
             ->addColumn('action', function ($customer) {
                 return Utils::renderActionHtml(
@@ -90,7 +93,7 @@ class CustomerService
                 return $customer->genderToText();
             })
             ->editColumn('birthday', function ($customer) {
-                return $customer->formatDate($customer->birthday);
+                return Utils::formatDate($customer->birthday);
             })
             ->editColumn('type', function ($customer) {
                 return $customer->typeToText();

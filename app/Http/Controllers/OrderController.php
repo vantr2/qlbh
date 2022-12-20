@@ -7,7 +7,9 @@ use App\Helpers\Utils;
 use App\Http\Requests\OrderRequest;
 use App\Imports\OrderImport;
 use App\Models\Company;
+use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Product;
 use App\Services\OrderService;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -90,8 +92,9 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
-        $companies = Company::all();
-        return view('orders.create', compact('companies'));
+        $customers = Customer::all();
+        $products = Product::all();
+        return view('orders.create', compact('customers', 'products'));
     }
 
     /**
@@ -103,7 +106,11 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         $formData = $request->all();
-        $isCreated = $this->orderService->store($formData);
+        $detailData = $formData['details'];
+        unset($formData['details']);
+
+
+        $isCreated = $this->orderService->store($formData, $detailData);
 
         if ($isCreated) {
             $successMsg = isset($formData['_id']) ? __('Order has updated successful') : __('Order has created successful');
@@ -121,9 +128,10 @@ class OrderController extends Controller
      */
     public function detail(Request $request)
     {
-        $companies = Company::all();
+        $customers = Customer::all();
+        $products = Product::all();
         $orderInfo = $this->orderService->getDetail($request->id);
-        return view('orders.detail', compact('orderInfo', 'companies'));
+        return view('orders.detail', compact('orderInfo', 'customers', 'products'));
     }
 
     /**

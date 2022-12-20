@@ -56,7 +56,6 @@ class CompanyService
     {
         try {
             Company::where('_id', $id)->delete();
-            Customer::where('company_id', $id)->update(['company_id', null]);
             return true;
         } catch (Exception $ex) {
             Log::error('deleteCompany: ' . $ex);
