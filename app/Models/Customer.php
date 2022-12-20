@@ -14,7 +14,6 @@ class Customer extends EloquentModel
     public const FEMALE = 2;
     public const OTHER = 3;
 
-
     // Type option
     public const VIP = 1;
     public const NORMAL = 2;

@@ -4,6 +4,8 @@ namespace App\Exports;
 
 use App\Helpers\Utils;
 use App\Models\Customer;
+use App\Models\Order;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -16,27 +18,23 @@ class OrderExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMappin
 
     public function query()
     {
-        return Customer::query()->with('company');
+        return Order::query()->with('customer');
     }
 
     /**
-     * @var Customer $customer
+     * @var Order $order
      */
-    public function map($customer): array
+    public function map($order): array
     {
         return [
             [
-                $customer->first_name . ' ' . $customer->last_name,
-                $customer->age,
-                $customer->genderToText(),
-                Utils::formatDate($customer->birthday),
-                $customer->address,
-                $customer->typeToText(),
-                $customer->company->name,
-                Utils::formatDate($customer->created_at),
-                $customer->created_by,
-                Utils::formatDate($customer->updated_at),
-                $customer->updated_by,
+                $order->customer ? $order->customer->first_name . ' ' . $order->customer->last_name : '',
+                $order->total,
+                $order->order_date,
+                Utils::formatDate($order->created_at),
+                $order->created_by,
+                Utils::formatDate($order->updated_at),
+                $order->updated_by,
             ],
         ];
     }
@@ -44,13 +42,9 @@ class OrderExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMappin
     public function headings(): array
     {
         return [
-            'Name',
-            'Age',
-            'Gender',
-            'Birthday',
-            'Address',
-            'Type',
-            'Workplace',
+            'Customer Name',
+            'Total Money',
+            'Order Date',
             'Created At',
             'Created By',
             'Updated At',

@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
 {
@@ -28,7 +29,7 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
                 'age' => $row['age'],
                 'gender' => $row['gender'],
                 'address' => $row['address'],
-                'birthday' => $row['birthday'],
+                'birthday' => date('Y-m-d', strtotime($row['birthday'])),
                 'type' => $row['type'],
                 'company_id' => $row['company_id'],
                 'created_by' => Auth::user()->name,
@@ -54,5 +55,11 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
             ],
             '*.company_id' => ['required', 'exists:companies,_id'],
         ];
+    }
+
+    public function prepareForValidation($data, $index)
+    {
+        $data['birthday'] = Date::excelToDateTimeObject($data['birthday'])->format('Y-m-d');
+        return $data;
     }
 }
