@@ -196,7 +196,11 @@ class CustomerController extends Controller
     public function downloadSample(Request $request)
     {
         $filePath = config('excel.imports.sample_path.customers');
-        return response()->download($filePath);
+        if (File::exists($filePath)) {
+            return response()->download($filePath);
+        }
+
+        return redirect()->route('customers.list')->with('fail', __('Sample file not found'));
     }
 
     /**
@@ -208,8 +212,12 @@ class CustomerController extends Controller
     public function downloadErrorFile(Request $request)
     {
         $errorPath = config('excel.imports.error.path');
+
         $filePath = storage_path('app/' . $errorPath) . '/' . $request->file_name;
 
-        return response()->download($filePath)->deleteFileAfterSend(true);
+        if (File::exists($filePath)) {
+            return response()->download($filePath)->deleteFileAfterSend(true);
+        }
+        return redirect()->route('customers.list')->with('fail', __('Error file not found'));
     }
 }

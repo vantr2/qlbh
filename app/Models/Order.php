@@ -12,7 +12,7 @@ class Order extends EloquentModel
     protected $fillable = [
         'customer_id',
         'total',
-        'date_created',
+        'order_date',
         'created_by',
         'updated_by',
     ];

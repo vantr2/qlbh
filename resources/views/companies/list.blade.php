@@ -12,21 +12,27 @@
         </div>
     @endif
     <div>
-        <h1 class="mb-3">{{ __('Company Management') }}</h1>
-        <a href="{{ route('companies.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
+        <div class="card">
+            <div class="card-header py-3">
+                <h4 class="mb-0">{{ __('Company Management') }}</h4>
+            </div>
+            <div class="card-body">
+                <a href="{{ route('companies.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
 
-        <table id="tbl_companies" class="table table-hover table-bordered w-100">
-            <thead>
-                <tr>
-                    <th>{{ __('Company Name') }}</th>
-                    <th>{{ __('Company Address') }}</th>
-                    <th>{{ __('Established Year') }}</th>
-                    <th>{{ __('Created By') }}</th>
-                    <th>{{ __('Updated By') }}</th>
-                    <th>{{ __('Action') }}</th>
-                </tr>
-            </thead>
-        </table>
+                <table id="tbl_companies" class="table table-hover table-bordered w-100">
+                    <thead>
+                        <tr>
+                            <th>{{ __('Company Name') }}</th>
+                            <th>{{ __('Company Address') }}</th>
+                            <th>{{ __('Established Year') }}</th>
+                            <th>{{ __('Created By') }}</th>
+                            <th>{{ __('Updated By') }}</th>
+                            <th>{{ __('Action') }}</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 @endsection
 

@@ -17,29 +17,35 @@
         </div>
     @endif
     <div>
-        <h1 class="mb-3">{{ __('Customer Management') }}</h1>
-        <div class="d-flex">
-            <a href="{{ route('customers.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
-            <a href="{{ route('customers.export') }}" class="btn btn-primary mb-3 ms-2">{{ __('Export') }}</a>
-            <button type="button" class="btn btn-primary mb-3 ms-2" data-bs-toggle="modal"
-                data-bs-target="#import_customer_modal">
-                {{ __('Import') }}
-            </button>
-        </div>
+        <div class="card">
+            <div class="card-header py-3">
+                <h4 class="mb-0">{{ __('Customer Management') }}</h4>
+            </div>
+            <div class="card-body">
+                <div class="d-flex">
+                    <a href="{{ route('customers.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
+                    <a href="{{ route('customers.export') }}" class="btn btn-primary mb-3 ms-2">{{ __('Export') }}</a>
+                    <button type="button" class="btn btn-primary mb-3 ms-2" data-bs-toggle="modal"
+                        data-bs-target="#import_customer_modal">
+                        {{ __('Import') }}
+                    </button>
+                </div>
 
-        <table id="tbl_customers" class="table table-hover table-bordered w-100">
-            <thead>
-                <tr>
-                    <th>{{ __('Name') }}</th>
-                    <th>{{ __('Age') }}</th>
-                    <th>{{ __('Gender') }}</th>
-                    <th>{{ __('Birthday') }}</th>
-                    <th>{{ __('Type') }}</th>
-                    <th>{{ __('Workplace') }}</th>
-                    <th>{{ __('Action') }}</th>
-                </tr>
-            </thead>
-        </table>
+                <table id="tbl_customers" class="table table-hover table-bordered w-100">
+                    <thead>
+                        <tr>
+                            <th>{{ __('Name') }}</th>
+                            <th>{{ __('Age') }}</th>
+                            <th>{{ __('Gender') }}</th>
+                            <th>{{ __('Birthday') }}</th>
+                            <th>{{ __('Type') }}</th>
+                            <th>{{ __('Workplace') }}</th>
+                            <th>{{ __('Action') }}</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
     @include('customers.import_customer_modal')
 @endsection

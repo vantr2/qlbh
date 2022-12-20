@@ -10819,14 +10819,6 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-body {
-  font-size: 14px;
-  line-height: 1.8;
-  font-weight: normal;
-  background: #fafafa;
-  color: gray;
-}
-
 a {
   transition: 0.3s all ease;
   color: #0d6efd;
@@ -10835,6 +10827,10 @@ a:hover, a:focus {
   text-decoration: none !important;
   outline: none !important;
   box-shadow: none;
+}
+
+.form-control, .form-select {
+  background-color: white;
 }
 
 button {
@@ -10857,7 +10853,6 @@ h5,
 .h4,
 .h5 {
   line-height: 1.5;
-  font-weight: 400;
   color: #000;
 }
 

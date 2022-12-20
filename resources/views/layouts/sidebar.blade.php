@@ -15,6 +15,11 @@
             'route' => route('products.list'),
             'prefix' => 'products',
         ],
+        [
+            'name' => __('Order'),
+            'route' => route('orders.list'),
+            'prefix' => 'orders',
+        ],
     ];
 @endphp
 

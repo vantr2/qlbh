@@ -7,6 +7,7 @@ return [
 
         'result_file_name_format' => [
             'customer' => 'customers__%s.xlsx', // %s is current date-time
+            'order' => 'orders__%s.xlsx', // %s is current date-time
         ],
         /*
         |--------------------------------------------------------------------------
@@ -78,11 +79,13 @@ return [
     'imports'            => [
         'sample_path' => [
             'customers' => storage_path('sample_excel/customers_sample_data.xlsx'),
+            'orders' => storage_path('sample_excel/orders_sample_data.xlsx'),
         ],
         'error' => [
             'path' => 'error_path', // E.g: storage/app/error_path
             'file_name_format' => [
                 'customer' => 'import_customer_error_%s.xlsx', // %s is current date-time
+                'order' => 'import_order_error_%s.xlsx', // %s is current date-time
             ]
         ],
         /*
