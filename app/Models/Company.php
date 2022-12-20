@@ -6,6 +6,7 @@ use Jenssegers\Mongodb\Eloquent\Model as EloquentModel;
 
 class Company extends EloquentModel
 {
+    use FixingFetchDateTime;
     protected $connection = 'mongodb';
     protected $collection = 'companies';
 

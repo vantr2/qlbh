@@ -11,6 +11,7 @@ class User extends Eloquent implements AuthenticatableContract
 {
     use AuthenticableTrait;
     use Notifiable;
+    use FixingFetchDateTime;
 
     const ADMIN = 1;
     const NORMAL_USER = 2;
