@@ -1,6 +1,11 @@
 @php
     $menuItems = [
         [
+            'name' => __('User'),
+            'route' => route('users.list'),
+            'prefix' => 'users',
+        ],
+        [
             'name' => __('Company'),
             'route' => route('companies.list'),
             'prefix' => 'companies',

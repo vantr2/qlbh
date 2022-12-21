@@ -17,6 +17,8 @@ class User extends Eloquent implements AuthenticatableContract
     const NORMAL_USER = 2;
 
     protected $connection = 'mongodb';
+    protected $collection = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -47,4 +49,15 @@ class User extends Eloquent implements AuthenticatableContract
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Customer::class, null, 'user_ids', 'customer_ids');
+    }
+
+    public function roleToText()
+    {
+        $roleText = [self::ADMIN => __('ADMIN'), self::NORMAL_USER => __('NORMAL')];
+        return $roleText[$this->role];
+    }
 }

@@ -63,4 +63,9 @@ class Customer extends EloquentModel
         ];
         return $genderToText[intval($this->gender)];
     }
+
+    public function beApplied()
+    {
+        return $this->belongsToMany(User::class, null, 'customer_ids', 'user_ids');
+    }
 }
