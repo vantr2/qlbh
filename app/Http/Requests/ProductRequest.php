@@ -28,7 +28,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:100'],
-            'description' => ['required', 'max:500'],
+            'description' => ['max:500'],
             'price' => ['required', 'numeric', 'min:0', 'max:1000000000'], // 1 billion
         ];
     }

@@ -29,14 +29,13 @@ class CustomerRequest extends FormRequest
         return [
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
-            'age' => ['required', 'numeric', 'min:0'],
+            'age' => ['numeric', 'min:0'],
             'gender' => [
                 'required',
                 Rule::in([Customer::MALE, Customer::FEMALE, Customer::OTHER])
             ],
-            'birthday' => ['required', 'date', 'before:today'],
+            'birthday' => ['date', 'before:today'],
             'type' => [
-                'required',
                 Rule::in([Customer::VIP, Customer::NORMAL])
             ],
             'company_id' => ['required', 'exists:companies,_id'],

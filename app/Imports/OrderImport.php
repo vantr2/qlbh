@@ -24,7 +24,6 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            Log::debug($row);
             Order::create([
                 'customer_id' => $row['customer'],
                 'order_date' => date('Y-m-d', strtotime($row['order_date'])),
@@ -52,7 +51,7 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation
             $data['order_date'] = Date::excelToDateTimeObject($data['order_date'])->format('Y-m-d');
         }
 
-        if(is_string($data['order_date'])){
+        if (is_string($data['order_date'])) {
             $data['order_date'] = date('Y-m-d', strtotime($data['order_date']));
         }
         return $data;
