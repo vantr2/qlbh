@@ -23,13 +23,14 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
      */
     public function collection(Collection $rows)
     {
+        $authUserName = Auth::user()->name;
+
         foreach ($rows as $row) {
             $company = Company::firstOrCreate([
                 'name' => $row['workplace'],
                 'address' => $row['work_address'],
             ]);
 
-            $authUserName = Auth::user()->name;
             $company->created_by = $authUserName;
             $company->updated_by = $authUserName;
             $company->save();
@@ -73,11 +74,6 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
         if (is_int($data['birthday']) || is_float($data['birthday'])) {
             $data['birthday'] = Date::excelToDateTimeObject($data['birthday'])->format('Y-m-d');
         }
-
-        if (is_string($data['birthday'])) {
-            $data['birthday'] = date('Y-m-d', strtotime($data['birthday']));
-        }
-
         return $data;
     }
 }
