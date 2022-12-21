@@ -99,11 +99,14 @@ class CustomerService
                     'confirmDeleteCustomer(this)'
                 );
             })
+            ->editColumn('age', function ($customer) {
+                return $customer->age ?? '';
+            })
             ->editColumn('gender', function ($customer) {
                 return $customer->genderToText();
             })
             ->editColumn('birthday', function ($customer) {
-                return Utils::formatDate($customer->birthday);
+                return $customer->birthday ? Utils::formatDate($customer->birthday) : '';
             })
             ->editColumn('type', function ($customer) {
                 return $customer->typeToText();

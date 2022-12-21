@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Company;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Collection;
@@ -23,6 +24,16 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
+            $company = Company::firstOrCreate([
+                'name' => $row['workplace'],
+                'address' => $row['work_address'],
+            ]);
+
+            $authUserName = Auth::user()->name;
+            $company->created_by = $authUserName;
+            $company->updated_by = $authUserName;
+            $company->save();
+
             Customer::create([
                 'first_name' => $row['first_name'],
                 'last_name' => $row['last_name'],
@@ -31,9 +42,9 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
                 'address' => $row['address'],
                 'birthday' => date('Y-m-d', strtotime($row['birthday'])),
                 'type' => $row['type'],
-                'company_id' => $row['company_id'],
-                'created_by' => Auth::user()->name,
-                'updated_by' => Auth::user()->name,
+                'company_id' => $company->id,
+                'created_by' => $authUserName,
+                'updated_by' => $authUserName,
             ]);
         }
     }
@@ -52,7 +63,8 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
             '*.type' => [
                 Rule::in([Customer::VIP, Customer::NORMAL])
             ],
-            '*.company_id' => ['required', 'exists:companies,_id'],
+            '*.workplace' => ['required', 'max:100'],
+            '*.work_address' => ['required', 'max:200'],
         ];
     }
 
@@ -65,6 +77,7 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
         if (is_string($data['birthday'])) {
             $data['birthday'] = date('Y-m-d', strtotime($data['birthday']));
         }
+
         return $data;
     }
 }

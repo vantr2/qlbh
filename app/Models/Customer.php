@@ -46,7 +46,7 @@ class Customer extends EloquentModel
     public function typeToText()
     {
         $typeToText = [Customer::VIP => __('VIP'), Customer::NORMAL => __('Normal')];
-        return $typeToText[intval($this->type)];
+        return $this->type ? $typeToText[intval($this->type)] : '';
     }
 
     /**
@@ -61,7 +61,7 @@ class Customer extends EloquentModel
             Customer::FEMALE => __('Female'),
             Customer::OTHER => __('Other')
         ];
-        return $genderToText[intval($this->gender)];
+        return $this->gender ? $genderToText[intval($this->gender)] : '';
     }
 
     public function beApplied()

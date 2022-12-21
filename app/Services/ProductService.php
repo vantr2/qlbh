@@ -79,6 +79,9 @@ class ProductService
                     'confirmDeleteProduct(this)'
                 );
             })
+            ->editColumn('description', function ($customer) {
+                return $customer->description ?? '';
+            })
             ->rawColumns(['action'])
             ->make(true);
     }

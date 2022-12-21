@@ -78,6 +78,9 @@ class CompanyService
                     'confirmDeleteCompany(this)'
                 );
             })
+            ->editColumn('established_year', function($company){
+                return $company->established_year ?? '';
+            })
             ->rawColumns(['action'])
             ->make(true);
     }
