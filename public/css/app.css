@@ -10834,14 +10834,6 @@ a:hover, a:focus {
   background-color: white;
 }
 
-input.form-control:not([type=file]):-moz-read-only {
-  background-color: #e9ecef;
-}
-
-input.form-control:not([type=file]):read-only {
-  background-color: #e9ecef;
-}
-
 button {
   transition: 0.3s all ease;
 }

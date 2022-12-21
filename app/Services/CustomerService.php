@@ -73,9 +73,16 @@ class CustomerService
      */
     public function buildData()
     {
-        return DataTables::of(Customer::query()->where([
-            ['user_ids', 'all', [Auth::user()->id]]
-        ])->with('company', 'beApplied'))
+        $me = Auth::user();
+        if ($me->isAdmin()) {
+            $query = Customer::query()->with('company');
+        } else {
+            $query = Customer::query()->where([
+                ['user_ids', 'all', [Auth::user()->id]]
+            ])->with('company', 'beApplied');
+        }
+
+        return DataTables::of($query)
             ->addColumn('name', function ($customer) {
                 return $customer->first_name . ' ' . $customer->last_name;
             })

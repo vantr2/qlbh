@@ -138,7 +138,7 @@ class OrderService
         foreach ($details as $detail) {
             $item = [
                 'id' => $detail->product_id,
-                'name' => $detail->product->name,
+                'name' => $detail->product->name ?? __('Deleted product'),
                 'price' => $detail->product_price,
                 'quantity' => $detail->product_qty,
                 'amount' => $detail->product_amount,

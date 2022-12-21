@@ -38,6 +38,7 @@ class CustomerObserver
     public function deleted(Customer $customer)
     {
         Order::where('customer_id', $customer->id)->update(['customer_id', null]);
+        $customer->beApplied()->detach();
     }
 
     /**

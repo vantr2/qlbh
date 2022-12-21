@@ -4,7 +4,7 @@
     @if (Session::has('success'))
         <div class="alert alert-success">
             {{ Session::get('success') }}
-        </div>  
+        </div>
     @endif
     @if (Session::has('fail'))
         <div class="alert alert-danger">
@@ -32,9 +32,10 @@
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="email" class="form-label">{{ __('Email') }}</label>
-                            <input type="text" readonly class="form-control @error('email') is-invalid @enderror"
-                                id="email" value="{{ old('email', $me->email) }}">
+                            <label for="email" class="form-label">{{ __('Email') . ' ' . __('(cannot edit)') }}</label>
+                            <input type="text" readonly
+                                class="form-control bg-light @error('email') is-invalid @enderror" id="email"
+                                value="{{ old('email', $me->email) }}">
                             @error('email')
                                 <div class="invalid-feedback">
                                     {{ $message }}
