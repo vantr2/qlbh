@@ -74,11 +74,14 @@
             @enderror
         </div>
 
-        <div class="col-2 d-flex align-items-end action-for-add">
-            <div class="btn btn-primary add-product" onclick="addProduct()">
-                {{ __('Add') }}
+        <div class="col-2">
+            <label for="" class="form-label opacity-0">{{ __('Q') }}</label>
+            <div class="d-flex ">
+                <div class="btn btn-primary add-product" onclick="addProduct()">
+                    {{ __('Add') }}
+                </div>
+                <div class="btn btn-secondary ms-2" onclick="clearProductForm()">{{ __('Clear') }}</div>
             </div>
-            <div class="btn btn-secondary ms-2" onclick="clearProductForm()">{{ __('Clear') }}</div>
         </div>
 
         {{-- <div class="col-2 d-none align-items-end action-for-update">
