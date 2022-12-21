@@ -38,14 +38,14 @@ class CustomerController extends Controller
         Route::prefix('customers')->group(function () {
             Route::get('/', [CustomerController::class, 'index'])->name('customers.list');
             Route::get('/render-data', [CustomerController::class, 'renderData'])->name('customers.render_data');
-            Route::get('/create', [CustomerController::class, 'create'])->name('customers.create');
+            Route::get('/create', [CustomerController::class, 'create'])->name('customers.create')->middleware('admin');
             Route::post('/store', [CustomerController::class, 'store'])->name('customers.store');
             Route::get('/detail/{id}', [CustomerController::class, 'detail'])->name('customers.detail');
-            Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('customers.delete');
-            Route::get('/export', [CustomerController::class, 'export'])->name('customers.export');
-            Route::get('/download-sample', [CustomerController::class, 'downloadSample'])->name('customers.download_sample');
-            Route::get('/download-error-file/{file_name}', [CustomerController::class, 'downloadErrorFile'])->name('customers.download_error_file');
-            Route::post('/import', [CustomerController::class, 'import'])->name('customers.import');
+            Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('customers.delete')->middleware('admin');
+            Route::get('/export', [CustomerController::class, 'export'])->name('customers.export')->middleware('admin');
+            Route::get('/download-sample', [CustomerController::class, 'downloadSample'])->name('customers.download_sample')->middleware('admin');
+            Route::get('/download-error-file/{file_name}', [CustomerController::class, 'downloadErrorFile'])->name('customers.download_error_file')->middleware('admin');
+            Route::post('/import', [CustomerController::class, 'import'])->name('customers.import')->middleware('admin');
         });
     }
 

@@ -16,6 +16,7 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -93,7 +94,14 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
-        $customers = Customer::all();
+        $me = Auth::user();
+        if ($me->isAdmin()) {
+            $customers = Customer::all();
+        } else {
+            $customers = Customer::with('beApplied')->where([
+                ['user_ids', 'all', [$me->id]]
+            ])->get();
+        }
         $products = Product::all();
         return view('orders.create', compact('customers', 'products'));
     }
@@ -129,7 +137,15 @@ class OrderController extends Controller
      */
     public function detail(Request $request)
     {
-        $customers = Customer::all();
+        $me = Auth::user();
+        if ($me->isAdmin()) {
+            $customers = Customer::all();
+        } else {
+            $customers = Customer::with('user_ids')->where([
+                ['user_ids', 'all', [$me->id]]
+            ])->get();
+        }
+
         $products = Product::all();
         $orderInfo = $this->orderService->getDetail($request->id);
         return view('orders.detail', compact('orderInfo', 'customers', 'products'));

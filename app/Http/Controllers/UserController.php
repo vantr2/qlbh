@@ -46,7 +46,7 @@ class UserController extends Controller
      */
     public function __construct(UserService $userService)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'admin']);
         $this->userService = $userService;
     }
 

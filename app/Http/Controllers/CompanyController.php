@@ -45,7 +45,7 @@ class CompanyController extends Controller
      */
     public function __construct(CompanyService $companySerivce)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'admin']);
         $this->companySerivce = $companySerivce;
     }
 

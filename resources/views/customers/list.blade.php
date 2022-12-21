@@ -22,14 +22,16 @@
                 <h4 class="mb-0">{{ __('Customer Management') }}</h4>
             </div>
             <div class="card-body">
-                <div class="d-flex">
-                    <a href="{{ route('customers.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
-                    <a href="{{ route('customers.export') }}" class="btn btn-primary mb-3 ms-2">{{ __('Export') }}</a>
-                    <button type="button" class="btn btn-primary mb-3 ms-2" data-bs-toggle="modal"
-                        data-bs-target="#import_customer_modal">
-                        {{ __('Import') }}
-                    </button>
-                </div>
+                @admin
+                    <div class="d-flex">
+                        <a href="{{ route('customers.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
+                        <a href="{{ route('customers.export') }}" class="btn btn-primary mb-3 ms-2">{{ __('Export') }}</a>
+                        <button type="button" class="btn btn-primary mb-3 ms-2" data-bs-toggle="modal"
+                            data-bs-target="#import_customer_modal">
+                            {{ __('Import') }}
+                        </button>
+                    </div>
+                @endadmin
 
                 <table id="tbl_customers" class="table table-hover table-bordered w-100">
                     <thead>

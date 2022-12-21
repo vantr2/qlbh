@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Order;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
@@ -72,12 +73,14 @@ class CustomerService
      */
     public function buildData()
     {
-        return DataTables::of(Customer::query()->with('company'))
+        return DataTables::of(Customer::query()->where([
+            ['user_ids', 'all', [Auth::user()->id]]
+        ])->with('company', 'beApplied'))
             ->addColumn('name', function ($customer) {
                 return $customer->first_name . ' ' . $customer->last_name;
             })
             ->addColumn('workplace', function ($customer) {
-                if($customer->company){
+                if ($customer->company) {
                     return $customer->company->name;
                 }
                 return null;

@@ -10834,12 +10834,11 @@ a:hover, a:focus {
   background-color: white;
 }
 
-input.form-control:not([type=file]):-moz-read-only, select.form-control:-moz-read-only {
+input.form-control:not([type=file]):-moz-read-only {
   background-color: #e9ecef;
 }
 
-input.form-control:not([type=file]):read-only,
-select.form-control:read-only {
+input.form-control:not([type=file]):read-only {
   background-color: #e9ecef;
 }
 
@@ -10955,6 +10954,8 @@ h5,
 }
 #sidebar ul li {
   font-size: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 2px solid transparent;
 }
 #sidebar ul li > ul {
   margin-left: 10px;
@@ -10962,15 +10963,14 @@ h5,
 #sidebar ul li > ul li {
   font-size: 14px;
 }
+#sidebar ul li > div {
+  width: 1.5rem;
+}
 #sidebar ul li a {
   padding: 10px 0;
   display: block;
   color: rgba(255, 255, 255, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   text-decoration: none;
-}
-#sidebar ul li a:hover {
-  color: #0d6efd;
 }
 #sidebar ul li.active > a {
   background: transparent;

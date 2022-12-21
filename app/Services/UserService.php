@@ -78,7 +78,7 @@ class UserService
     {
         try {
             $user = User::find($data['user_id']);
-            $user->permissions()->sync($data['permissions']);
+            $user->permissions()->sync($data['permissions'] ?? []);
             return true;
         } catch (Exception $ex) {
             Log::error('applyPermissionSetting: ' . $ex);
