@@ -10,8 +10,16 @@ a {
 	}
 }
 
-.form-control, .form-select{
+.form-control,
+.form-select {
 	background-color: white;
+}
+
+input.form-control:not([type='file']),
+select.form-control {
+	&:read-only {
+		background-color: #e9ecef;
+	}
 }
 
 button {
@@ -91,6 +99,11 @@ h5,
 	margin: 40px 0;
 }
 
+.mini-avatar {
+	width: 2.25rem;
+	height: 2.25rem;
+	border-radius: 50%;
+}
 
 //SIDEBAR
 .wrapper {
@@ -118,6 +131,16 @@ h5,
 			display: block;
 		}
 	}
+
+	.home-title {
+		font-weight: bold;
+
+		a {
+			text-decoration: none;
+			color: white;
+		}
+	}
+
 
 	ul.components {
 		padding: 0;

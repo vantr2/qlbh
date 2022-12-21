@@ -10829,8 +10829,18 @@ a:hover, a:focus {
   box-shadow: none;
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
   background-color: white;
+}
+
+input.form-control:not([type=file]):-moz-read-only, select.form-control:-moz-read-only {
+  background-color: #e9ecef;
+}
+
+input.form-control:not([type=file]):read-only,
+select.form-control:read-only {
+  background-color: #e9ecef;
 }
 
 button {
@@ -10904,6 +10914,12 @@ h5,
   margin: 40px 0;
 }
 
+.mini-avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+}
+
 .wrapper {
   width: 100%;
 }
@@ -10926,6 +10942,13 @@ h5,
 }
 #sidebar .logo span {
   display: block;
+}
+#sidebar .home-title {
+  font-weight: bold;
+}
+#sidebar .home-title a {
+  text-decoration: none;
+  color: white;
 }
 #sidebar ul.components {
   padding: 0;

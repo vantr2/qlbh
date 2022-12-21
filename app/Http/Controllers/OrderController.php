@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\OrderExport;
 use App\Helpers\Utils;
+use App\Http\Requests\ImportExcelRequest;
 use App\Http\Requests\OrderRequest;
 use App\Imports\OrderImport;
 use App\Models\Company;
@@ -167,10 +168,10 @@ class OrderController extends Controller
     /**
      * import order list from excel
      *
-     * @param  Request $request
+     * @param  ImportExcelRequest $request
      * @return void
      */
-    public function import(Request $request)
+    public function import(ImportExcelRequest $request)
     {
         $errorFileName = '';
         try {

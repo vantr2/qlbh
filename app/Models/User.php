@@ -28,6 +28,7 @@ class User extends Eloquent implements AuthenticatableContract
         'name',
         'email',
         'password',
+        'avatar',
         'role',
     ];
 
@@ -59,5 +60,10 @@ class User extends Eloquent implements AuthenticatableContract
     {
         $roleText = [self::ADMIN => __('ADMIN'), self::NORMAL_USER => __('NORMAL')];
         return $roleText[$this->role];
+    }
+
+    public function isAdmin()
+    {
+        return $this->role == self::ADMIN;
     }
 }

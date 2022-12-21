@@ -48,7 +48,13 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation
 
     public function prepareForValidation($data, $index)
     {
-        $data['order_date'] = Date::excelToDateTimeObject($data['order_date'])->format('Y-m-d');
+        if (is_int($data['order_date']) || is_float($data['order_date'])) {
+            $data['order_date'] = Date::excelToDateTimeObject($data['order_date'])->format('Y-m-d');
+        }
+
+        if(is_string($data['order_date'])){
+            $data['order_date'] = date('Y-m-d', strtotime($data['order_date']));
+        }
         return $data;
     }
 }

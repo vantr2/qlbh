@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\CustomerExport;
 use App\Helpers\Utils;
 use App\Http\Requests\CustomerRequest;
+use App\Http\Requests\ImportExcelRequest;
 use App\Imports\CustomerImport;
 use App\Models\Company;
 use App\Models\Customer;
@@ -159,10 +160,10 @@ class CustomerController extends Controller
     /**
      * import customer list from excel
      *
-     * @param  Request $request
+     * @param  ImportExcelRequest $request
      * @return void
      */
-    public function import(Request $request)
+    public function import(ImportExcelRequest $request)
     {
         $errorFileName = '';
         try {

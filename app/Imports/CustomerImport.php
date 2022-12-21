@@ -59,7 +59,13 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
 
     public function prepareForValidation($data, $index)
     {
-        $data['birthday'] = Date::excelToDateTimeObject($data['birthday'])->format('Y-m-d');
+        if (is_int($data['birthday']) || is_float($data['birthday'])) {
+            $data['birthday'] = Date::excelToDateTimeObject($data['birthday'])->format('Y-m-d');
+        }
+
+        if (is_string($data['birthday'])) {
+            $data['birthday'] = date('Y-m-d', strtotime($data['birthday']));
+        }
         return $data;
     }
 }

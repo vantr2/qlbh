@@ -29,10 +29,15 @@
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle pe-3" href="#" role="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="mini-avatar" src="{{ '/images' . '/' . (Auth::user()->avatar ?? 'no-user.png') }}"
+                                alt="{{ __('Avatar') }}">
                             {{ Auth::user()->name }}
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('home') }}">
+                                {{ __('Profile') }}
+                            </a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">

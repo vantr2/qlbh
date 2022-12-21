@@ -25,11 +25,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('home');
+Route::post('/profile/save', [App\Http\Controllers\HomeController::class, 'save'])->name('profile.save');
 
 CompanyController::routes();
 CustomerController::routes();
 ProductController::routes();
 OrderController::routes();
 UserController::routes();
-
