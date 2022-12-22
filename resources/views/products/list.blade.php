@@ -28,23 +28,21 @@
                     </p>
                     <div class="collapse mb-2" id="product-filter-box">
                         <div class="card card-body justify-content-center flex-row align-items-center">
-                            <form action="" id="customer_search_form">
-                                {{-- Search product name --}}
-                                <label for="search_name" class="fw-bold">{{ __('Product Name') }}</label>
-                                <input type="text" id="search_name" value="" class="form-control w-auto ms-2">
+                            {{-- Search product name --}}
+                            <label for="search_name" class="fw-bold">{{ __('Product Name') }}</label>
+                            <input type="text" id="search_name" value="" class="form-control w-auto ms-2">
 
-                                {{-- Search product price --}}
-                                <label for="search_price_from" class="ms-4 fw-bold">{{ __('Product Price') }}</label>
-                                <input type="number" min="0" id="search_price_from" value=""
-                                    class="form-control search-box-number ms-2">
-                                <span class="ms-2">~</span>
-                                <input type="number" min="0" id="search_price_to" value=""
-                                    class="form-control search-box-number ms-2">
+                            {{-- Search product price --}}
+                            <label for="search_price_from" class="ms-4 fw-bold">{{ __('Product Price') }}</label>
+                            <input type="number" min="0" id="search_price_from" value=""
+                                class="form-control search-box-number ms-2">
+                            <span class="ms-2">~</span>
+                            <input type="number" min="0" id="search_price_to" value=""
+                                class="form-control search-box-number ms-2">
 
-                                <button type="submit" class="btn btn-primary ms-4">
-                                    <i class="fa-solid fa-circle-right"></i>
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-primary ms-4" onclick="applySearch()">
+                                <i class="fa-solid fa-circle-right"></i>
+                            </button>
                         </div>
                     </div>
 
@@ -69,6 +67,10 @@
         <script>
             var productTable;
 
+            function applySearch() {
+                productTable.draw();
+            }
+
             function confirmDeleteProduct(element) {
                 if (confirm("{{ __('Do you want delete this product ?') }}")) {
                     var url = $(element).data('href');
@@ -77,10 +79,6 @@
             }
 
             $(function() {
-                $('#customer_search_form').submit(function(e) {
-                    productTable.draw();
-                });
-
                 productTable = $('#tbl_products').DataTable({
                     processing: true,
                     serverSide: true,

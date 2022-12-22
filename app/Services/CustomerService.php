@@ -144,7 +144,6 @@ class CustomerService
 
                 if (request()->has('search_workplace')) {
                     if (request('search_workplace')) {
-                        Log::debug(request('search_workplace'));
                         $query->where('company_id', '=', request('search_workplace'));
                     }
                 }

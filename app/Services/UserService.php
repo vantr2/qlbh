@@ -60,6 +60,23 @@ class UserService
             ->editColumn('updated_by', function ($user) {
                 return Utils::actionUser($user->updated_by);
             })
+            ->filter(function ($query) {
+                if (request()->has('search_name')) {
+                    if (request('search_name')) {
+                        $query->where('name', 'like', '%' . request('search_name') . '%');
+                    }
+                }
+                if (request()->has('search_email')) {
+                    if (request('search_email')) {
+                        $query->where('email', 'like', '%' . request('search_email') . '%');
+                    }
+                }
+                if (request()->has('search_role')) {
+                    if (request('search_role')) {
+                        $query->where('role', '=', intval(request('search_role')));
+                    }
+                }
+            })
             ->rawColumns(['action'])
             ->make(true);
     }
