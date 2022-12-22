@@ -36,9 +36,9 @@ class CustomerExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMap
                 $customer->company ? $customer->company->name : '',
                 $customer->company ? $customer->company->address : '',
                 Utils::formatDate($customer->created_at),
-                $customer->created_by,
+                Utils::actionUser($customer->created_by),
                 Utils::formatDate($customer->updated_at),
-                $customer->updated_by,
+                Utils::actionUser($customer->updated_by),
             ],
         ];
     }

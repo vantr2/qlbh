@@ -32,9 +32,9 @@ class OrderExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMappin
                 $order->total,
                 $order->order_date,
                 Utils::formatDate($order->created_at),
-                $order->created_by,
+                Utils::actionUser($order->created_by),
                 Utils::formatDate($order->updated_at),
-                $order->updated_by,
+                Utils::actionUser($order->updated_by),
             ],
         ];
     }

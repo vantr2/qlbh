@@ -104,6 +104,12 @@ class OrderService
             ->editColumn('order_date', function ($order) {
                 return Utils::formatDate($order->order_date);
             })
+            ->editColumn('created_by', function($order){
+                return Utils::actionUser($order->created_by);
+            })
+            ->editColumn('updated_by', function($order){
+                return Utils::actionUser($order->updated_by);
+            })
             ->rawColumns(['action'])
             ->make(true);
     }

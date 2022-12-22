@@ -6,12 +6,14 @@ use Illuminate\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Eloquent implements AuthenticatableContract
 {
     use AuthenticableTrait;
     use Notifiable;
     use FixingFetchDateTime;
+    use HasFactory;
 
     const ADMIN = 1;
     const NORMAL_USER = 2;

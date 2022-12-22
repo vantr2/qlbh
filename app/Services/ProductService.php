@@ -79,8 +79,14 @@ class ProductService
                     'confirmDeleteProduct(this)'
                 );
             })
-            ->editColumn('description', function ($customer) {
-                return $customer->description ?? '';
+            ->editColumn('description', function ($product) {
+                return $product->description ?? '';
+            })
+            ->editColumn('created_by', function($product){
+                return Utils::actionUser($product->created_by);
+            })
+            ->editColumn('updated_by', function($product){
+                return Utils::actionUser($product->updated_by);
             })
             ->rawColumns(['action'])
             ->make(true);

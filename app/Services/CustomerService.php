@@ -111,6 +111,12 @@ class CustomerService
             ->editColumn('type', function ($customer) {
                 return $customer->typeToText();
             })
+            ->editColumn('created_by', function($customer){
+                return Utils::actionUser($customer->created_by);
+            })
+            ->editColumn('updated_by', function($customer){
+                return Utils::actionUser($customer->updated_by);
+            })
             ->rawColumns(['action'])
             ->make(true);
     }

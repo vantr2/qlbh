@@ -23,7 +23,7 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
      */
     public function collection(Collection $rows)
     {
-        $authUserName = Auth::user()->name;
+        $authUserId = Auth::user()->id;
 
         foreach ($rows as $row) {
             $company = Company::firstOrCreate([
@@ -31,8 +31,8 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
                 'address' => $row['work_address'],
             ]);
 
-            $company->created_by = $authUserName;
-            $company->updated_by = $authUserName;
+            $company->created_by = $authUserId;
+            $company->updated_by = $authUserId;
             $company->save();
 
             Customer::create([
@@ -44,8 +44,8 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
                 'birthday' => date('Y-m-d', strtotime($row['birthday'])),
                 'type' => $row['type'],
                 'company_id' => $company->id,
-                'created_by' => $authUserName,
-                'updated_by' => $authUserName,
+                'created_by' => $authUserId,
+                'updated_by' => $authUserId,
             ]);
         }
     }

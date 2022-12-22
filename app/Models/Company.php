@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model as EloquentModel;
 
 class Company extends EloquentModel
 {
     use FixingFetchDateTime;
+    use HasFactory;
+
     protected $connection = 'mongodb';
     protected $collection = 'companies';
 

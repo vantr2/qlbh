@@ -54,6 +54,12 @@ class UserService
             ->editColumn('updated_at', function ($user) {
                 return date('d-m-Y H:i:s', strtotime($user->updated_at));
             })
+            ->editColumn('created_by', function ($user) {
+                return Utils::actionUser($user->created_by);
+            })
+            ->editColumn('updated_by', function ($user) {
+                return Utils::actionUser($user->updated_by);
+            })
             ->rawColumns(['action'])
             ->make(true);
     }

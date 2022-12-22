@@ -26,14 +26,14 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation
      */
     public function collection(Collection $rows)
     {
-        $authUserName = Auth::user()->name;
+        $authUserId = Auth::user()->id;
 
         foreach ($rows as $row) {
             $order = Order::create([
                 'customer_id' => $row['customer_id'] ?: null,
                 'order_date' => date('Y-m-d', strtotime($row['order_date'])),
-                'created_by' => $authUserName,
-                'updated_by' => $authUserName,
+                'created_by' => $authUserId,
+                'updated_by' => $authUserId,
             ]);
 
             $total = 0;
@@ -53,8 +53,8 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation
                         'name' => $productInfo[0],
                         'price' => $productInfo[1],
                     ]);
-                    $product->created_by = $authUserName;
-                    $product->updated_by = $authUserName;
+                    $product->created_by = $authUserId;
+                    $product->updated_by = $authUserId;
                     $product->save();
 
                     $amount = intval($productInfo[1]) * intval($productInfo[2]);

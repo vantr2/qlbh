@@ -78,8 +78,14 @@ class CompanyService
                     'confirmDeleteCompany(this)'
                 );
             })
-            ->editColumn('established_year', function($company){
+            ->editColumn('established_year', function ($company) {
                 return $company->established_year ?? '';
+            })
+            ->editColumn('created_by', function($company){
+                return Utils::actionUser($company->created_by);
+            })
+            ->editColumn('updated_by', function($company){
+                return Utils::actionUser($company->updated_by);
             })
             ->rawColumns(['action'])
             ->make(true);

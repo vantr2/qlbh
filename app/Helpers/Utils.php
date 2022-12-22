@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class Utils
@@ -35,7 +36,7 @@ class Utils
      */
     public static function attachUserAction(&$request)
     {
-        $currentUser = Auth::user()->name;
+        $currentUser = Auth::user()->id;
         if ($request->request->has('_id')) {
             $request->request->add([
                 'updated_by' => $currentUser,
@@ -57,5 +58,24 @@ class Utils
     public static function formatDate($date)
     {
         return date('d/m/Y', strtotime($date));
+    }
+
+    /**
+     * Display user name of created_by, updated_by
+     *
+     * @param  string $by
+     * @return string
+     */
+    public static function actionUser($by)
+    {
+        if (!$by) {
+            return $by;
+        }
+
+        $user = User::find($by);
+        if ($user) {
+            return $user->name;
+        }
+        return $by;
     }
 }
