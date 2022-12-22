@@ -19,6 +19,28 @@
             <div class="card-body">
                 <a href="{{ route('companies.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
 
+                <p class="float-end">
+                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#company-filter-box" aria-expanded="false" aria-controls="company-filter-box">
+                        <i class="fa-solid fa-filter"></i>
+                    </button>
+                </p>
+                <div class="collapse mb-2" id="company-filter-box">
+                    <div class="card card-body justify-content-center flex-row align-items-center">
+                        {{-- Search company name --}}
+                        <label for="search_name" class="fw-bold">{{ __('Company Name') }}</label>
+                        <input type="text" id="search_name" value="" class="form-control w-auto ms-2">
+
+                        {{-- Search company address --}}
+                        <label for="search_address" class="ms-4 fw-bold">{{ __('Company Address') }}</label>
+                        <input type="text" id="search_address" value="" class="form-control w-auto ms-2">
+
+                        <button type="button" class="btn btn-primary ms-4" onclick="applySearch()">
+                            <i class="fa-solid fa-circle-right"></i>
+                        </button>
+                    </div>
+                </div>
+
                 <table id="tbl_companies" class="table table-hover table-bordered w-100">
                     <thead>
                         <tr>
@@ -38,6 +60,12 @@
 
 @push('scripts')
     <script>
+        var companyTable;
+
+        function applySearch() {
+            companyTable.draw();
+        }
+
         function confirmDeleteCompany(element) {
             if (confirm("{{ __('Do you want delete this company ?') }}")) {
                 var url = $(element).data('href');
@@ -46,12 +74,19 @@
         }
 
         $(function() {
-            $('#tbl_companies').DataTable({
+            companyTable = $('#tbl_companies').DataTable({
                 processing: true,
                 serverSide: true,
                 ordering: false,
                 searching: false,
-                ajax: '{!! route('companies.render_data') !!}',
+                ajax: {
+                    'type': 'get',
+                    'url': '{!! route('companies.render_data') !!}',
+                    'data': function(data) {
+                        data.search_name = $('#search_name').val();
+                        data.search_address = $('#search_address').val();
+                    }
+                },
                 columns: [{
                         data: 'name',
                         name: 'name'

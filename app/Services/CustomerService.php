@@ -111,11 +111,43 @@ class CustomerService
             ->editColumn('type', function ($customer) {
                 return $customer->typeToText();
             })
-            ->editColumn('created_by', function($customer){
+            ->editColumn('created_by', function ($customer) {
                 return Utils::actionUser($customer->created_by);
             })
-            ->editColumn('updated_by', function($customer){
+            ->editColumn('updated_by', function ($customer) {
                 return Utils::actionUser($customer->updated_by);
+            })
+            ->filter(function ($query) {
+                if (request()->has('search_name')) {
+                    $keyword = request('search_name');
+                    if ($keyword) {
+                        $query->where(function ($q) use ($keyword) {
+                            $q
+                                ->orWhere('first_name', 'like', "%" . $keyword . "%")
+                                ->orWhere('last_name', 'like', "%" . $keyword . "%");
+                        });
+                    }
+                }
+
+                if (request()->has('search_age_from')) {
+                    $from = request('search_age_from');
+                    if ($from) {
+                        $query->where('age', '>=', intval($from));
+                    }
+                }
+                if (request()->has('search_age_to')) {
+                    $to = request('search_age_to');
+                    if ($to) {
+                        $query->where('age', '<=', intval($to));
+                    }
+                }
+
+                if (request()->has('search_workplace')) {
+                    if (request('search_workplace')) {
+                        Log::debug(request('search_workplace'));
+                        $query->where('company_id', '=', request('search_workplace'));
+                    }
+                }
             })
             ->rawColumns(['action'])
             ->make(true);

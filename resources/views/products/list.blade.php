@@ -20,6 +20,34 @@
                 <div class="card-body">
                     <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">{{ __('Add') }}</a>
 
+                    <p class="float-end">
+                        <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#product-filter-box" aria-expanded="false" aria-controls="product-filter-box">
+                            <i class="fa-solid fa-filter"></i>
+                        </button>
+                    </p>
+                    <div class="collapse mb-2" id="product-filter-box">
+                        <div class="card card-body justify-content-center flex-row align-items-center">
+                            <form action="" id="customer_search_form">
+                                {{-- Search product name --}}
+                                <label for="search_name" class="fw-bold">{{ __('Product Name') }}</label>
+                                <input type="text" id="search_name" value="" class="form-control w-auto ms-2">
+
+                                {{-- Search product price --}}
+                                <label for="search_price_from" class="ms-4 fw-bold">{{ __('Product Price') }}</label>
+                                <input type="number" min="0" id="search_price_from" value=""
+                                    class="form-control search-box-number ms-2">
+                                <span class="ms-2">~</span>
+                                <input type="number" min="0" id="search_price_to" value=""
+                                    class="form-control search-box-number ms-2">
+
+                                <button type="submit" class="btn btn-primary ms-4">
+                                    <i class="fa-solid fa-circle-right"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
                     <table id="tbl_products" class="table table-hover table-bordered w-100">
                         <thead>
                             <tr>
@@ -39,6 +67,8 @@
 
     @push('scripts')
         <script>
+            var productTable;
+
             function confirmDeleteProduct(element) {
                 if (confirm("{{ __('Do you want delete this product ?') }}")) {
                     var url = $(element).data('href');
@@ -47,12 +77,24 @@
             }
 
             $(function() {
-                $('#tbl_products').DataTable({
+                $('#customer_search_form').submit(function(e) {
+                    productTable.draw();
+                });
+
+                productTable = $('#tbl_products').DataTable({
                     processing: true,
                     serverSide: true,
                     ordering: false,
                     searching: false,
-                    ajax: '{!! route('products.render_data') !!}',
+                    ajax: {
+                        type: 'get',
+                        url: '{!! route('products.render_data') !!}',
+                        data: function(data) {
+                            data.search_name = $('#search_name').val();
+                            data.search_price_from = $('#search_price_from').val();
+                            data.search_price_to = $('#search_price_to').val();
+                        }
+                    },
                     columns: [{
                             data: 'name',
                             name: 'name'

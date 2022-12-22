@@ -82,13 +82,33 @@ class ProductService
             ->editColumn('description', function ($product) {
                 return $product->description ?? '';
             })
-            ->editColumn('created_by', function($product){
+            ->editColumn('created_by', function ($product) {
                 return Utils::actionUser($product->created_by);
             })
-            ->editColumn('updated_by', function($product){
+            ->editColumn('updated_by', function ($product) {
                 return Utils::actionUser($product->updated_by);
             })
             ->rawColumns(['action'])
+            ->filter(function ($query) {
+                if (request()->has('search_name')) {
+                    if (request('search_name')) {
+                        $query->where('name', 'like', "%" . request('search_name') . "%");
+                    }
+                }
+
+                if (request()->has('search_price_from')) {
+                    $from = request('search_price_from');
+                    if ($from) {
+                        $query->where('price', '>=', intval($from));
+                    }
+                }
+                if (request()->has('search_price_to')) {
+                    $to = request('search_price_to');
+                    if ($to) {
+                        $query->where('price', '<=', intval($to));
+                    }
+                }
+            })
             ->make(true);
     }
 }

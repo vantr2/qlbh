@@ -70,7 +70,8 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        return view('customers.list');
+        $companies = Company::all();
+        return view('customers.list', compact('companies'));
     }
 
     /**

@@ -81,13 +81,26 @@ class CompanyService
             ->editColumn('established_year', function ($company) {
                 return $company->established_year ?? '';
             })
-            ->editColumn('created_by', function($company){
+            ->editColumn('created_by', function ($company) {
                 return Utils::actionUser($company->created_by);
             })
-            ->editColumn('updated_by', function($company){
+            ->editColumn('updated_by', function ($company) {
                 return Utils::actionUser($company->updated_by);
             })
             ->rawColumns(['action'])
+            ->filter(function ($query) {
+                if (request()->has('search_name')) {
+                    if (request('search_name')) {
+                        $query->where('name', 'like', "%" . request('search_name') . "%");
+                    }
+                }
+
+                if (request()->has('search_address')) {
+                    if (request('search_address')) {
+                        $query->where('address', 'like', "%" . request('search_address') . "%");
+                    }
+                }
+            })
             ->make(true);
     }
 }
