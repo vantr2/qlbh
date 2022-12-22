@@ -15,6 +15,10 @@ a {
 	background-color: white;
 }
 
+.form-control:focus{
+	box-shadow: none;
+}
+
 button {
 	transition: .3s all ease;
 

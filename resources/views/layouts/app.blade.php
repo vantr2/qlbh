@@ -62,7 +62,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        function initSelectPicker() {
+         function initSelectPicker() {
             $('.selectpicker').select2({
                 theme: "bootstrap-5",
                 dropdownCssClass: "select2--small",
@@ -97,6 +97,12 @@
             $('.selectpicker').select2({
                 theme: "bootstrap-5",
                 dropdownCssClass: "select2--small",
+            });
+
+            $('.selectpicker-no-search').select2({
+                theme: "bootstrap-5",
+                dropdownCssClass: "select2--small",
+                minimumResultsForSearch: -1,
             });
 
         })(jQuery);

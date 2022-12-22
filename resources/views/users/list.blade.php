@@ -37,8 +37,8 @@
                         <input type="text" id="search_email" value="" class="form-control w-auto ms-2">
 
                         {{-- Search user name --}}
-                        <label for="search_role" class="fw-bold ms-4">{{ __('User Role') }}</label>
-                        <select id="search_role" class="form-control form-select w-auto ms-2">
+                        <label for="search_role" class="fw-bold ms-4 me-2">{{ __('User Role') }}</label>
+                        <select id="search_role" class="form-control form-select selectpicker-no-search w-auto ms-2">
                             <option value="">{{ __('Please choose ...') }}</option>
                             <option value="{{ \App\Models\User::ADMIN }}">{{ __('Admin') }}</option>
                             <option value="{{ \App\Models\User::NORMAL_USER }}">{{ __('Normal User') }}</option>

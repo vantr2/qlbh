@@ -53,9 +53,11 @@ class CustomerRequest extends FormRequest
         $this->request->remove('_token');
         Utils::attachUserAction($this);
 
-        $birthday = DateTime::createFromFormat('d/m/Y', $this->birthday);
-        $this->merge([
-            'birthday' => $birthday->format('Y-m-d'),
-        ]);
+        if($this->birthday){
+            $birthday = DateTime::createFromFormat('d/m/Y', $this->birthday);
+            $this->merge([
+                'birthday' => $birthday->format('Y-m-d'),
+            ]);
+        }
     }
 }

@@ -102,7 +102,7 @@
                             <div class="mb-3">
                                 <label for="type" class="form-label">{{ __('Type') }}</label>
                                 <select name="type"
-                                    class='form-select form-control  @error('type') is-invalid @enderror'>
+                                    class='form-select form-control selectpicker-no-search @error('type') is-invalid @enderror'>
                                     <option value="">{{ __('Please choose...') }}</option>
                                     <option value="{{ Customer::VIP }}"
                                         {{ old('type') == Customer::VIP ? 'selected' : '' }}>{{ __('VIP') }}

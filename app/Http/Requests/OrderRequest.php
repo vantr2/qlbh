@@ -47,12 +47,18 @@ class OrderRequest extends FormRequest
         $this->request->remove('_token');
         Utils::attachUserAction($this);
 
-        $orderDate = DateTime::createFromFormat('d/m/Y', $this->order_date);
+        if ($this->order_date) {
+            $orderDate = DateTime::createFromFormat('d/m/Y', $this->order_date);
+            $this->merge([
+                'order_date' => $orderDate->format('Y-m-d'),
+            ]);
+        }
+
         $this->merge([
             'details' => $this->constructDetailData(),
             'total' => intval(str_replace(',', '', $this->total)),
-            'order_date' => $orderDate->format('Y-m-d'),
         ]);
+
         $this->request->remove('detail_data');
     }
 

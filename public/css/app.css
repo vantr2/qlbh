@@ -10834,6 +10834,10 @@ a:hover, a:focus {
   background-color: white;
 }
 
+.form-control:focus {
+  box-shadow: none;
+}
+
 button {
   transition: 0.3s all ease;
 }
