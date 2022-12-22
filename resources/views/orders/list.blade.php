@@ -45,8 +45,8 @@
                     <div class="collapse mb-2" id="customer-filter-box">
                         <div class="card card-body justify-content-center flex-row align-items-center">
                             {{-- Search customer --}}
-                            <label for="search_customer" class="fw-bold">{{ __('Customer') }}</label>
-                            <select id="search_customer" class="form-control form-select ms-2 w-auto">
+                            <label for="search_customer" class="fw-bold me-2">{{ __('Customer') }}</label>
+                            <select id="search_customer" class="form-control form-select selectpicker ms-2 w-auto">
                                 <option value="">{{ __('Please choose ...') }}</option>
                                 @foreach ($customers as $customer)
                                     <option value="{{ $customer->id }}">

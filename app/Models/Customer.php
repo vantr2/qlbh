@@ -13,6 +13,8 @@ class Customer extends EloquentModel
     protected $connection = 'mongodb';
     protected $collection = 'customers';
 
+    protected $dates = ['birthday'];
+
     // Gender option
     public const MALE = 1;
     public const FEMALE = 2;

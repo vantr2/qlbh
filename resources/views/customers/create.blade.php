@@ -122,7 +122,7 @@
                             <div class="mb-3">
                                 <label for="company_id" class="form-label">{{ __('Workplace') }}</label>
                                 <select name="company_id"
-                                    class='form-select form-control  @error('company_id') is-invalid @enderror'>
+                                    class='form-select form-control selectpicker @error('company_id') is-invalid @enderror'>
                                     <option value="">{{ __('Please choose...') }}</option>
                                     @foreach ($companies as $company)
                                         <option value="{{ $company->id }}"

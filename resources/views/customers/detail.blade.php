@@ -57,7 +57,8 @@
                             <div class="mb-3">
                                 <label for="birthday" class="form-label">{{ __('Birthday') }}</label>
                                 <input type="date" class="form-control @error('birthday') is-invalid @enderror"
-                                    id="birthday" name="birthday" value="{{ old('birthday', $customerInfo->birthday) }}">
+                                    id="birthday" name="birthday"
+                                    value="{{ old('birthday', $customerInfo->birthday->format('Y-m-d')) }}">
 
                                 @error('birthday')
                                     <div class="invalid-feedback">
@@ -129,7 +130,7 @@
                             <div class="mb-3">
                                 <label for="company_id" class="form-label">{{ __('Workplace') }}</label>
                                 <select name="company_id"
-                                    class='form-select form-control @error('company_id') is-invalid @enderror'>
+                                    class='form-select form-control selectpicker @error('company_id') is-invalid @enderror'>
                                     <option value="">{{ __('Please choose...') }}</option>
                                     @foreach ($companies as $company)
                                         <option value="{{ $company->id }}"

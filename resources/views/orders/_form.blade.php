@@ -9,7 +9,8 @@
         <div class="col-6">
             <div class="mb-3">
                 <label for="customer_id" class="form-label">{{ __('Customer') }}</label>
-                <select name="customer_id" class='form-select form-control @error('customer_id') is-invalid @enderror'>
+                <select name="customer_id"
+                    class='form-select form-control selectpicker @error('customer_id') is-invalid @enderror'>
                     <option value="" selected>{{ __('Please choose...') }}</option>
                     @foreach ($customers as $customer)
                         @php
@@ -54,11 +55,12 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="product_id" class="form-label">{{ __('Product') }}</label>
-                <select name="product_id" class='form-select form-control'>
+                <select name="product_id" class='form-select form-control selectpicker'>
                     <option value="" selected>{{ __('Please choose...') }}</option>
                     @foreach ($products as $product)
-                        <option value="{{ $product->id }}" data-price="{{ $product->price }}">
-                            {{ $product->name }}</option>
+                        <option value="{{ $product->id }}" data-price="{{ $product->price }}"
+                            data-name="{{ $product->name }}">
+                            {{ $product->name . ' (' . number_format($product->price) . 'vnd)' }}</option>
                     @endforeach
                 </select>
             </div>
@@ -164,14 +166,15 @@
         }
 
         function clearProductForm() {
-            $('select[name="product_id"]').val('');
+            $('select[name="product_id"]').val('').trigger('change');
             $('input[name="quantity"]').val('');
             $('#product_can_update').val('');
         }
 
         function fillData(availableData = null) {
             var productId = availableData ? availableData.id : $('select[name="product_id"]').val();
-            var productName = availableData ? availableData.name : $('select[name="product_id"] option:selected').text();
+            var productName = availableData ? availableData.name : $('select[name="product_id"] option:selected').data(
+                'name');
             var productPrice = availableData ? availableData.price : $('select[name="product_id"] option:selected').data(
                 'price');
             var quantity = availableData ? availableData.quantity : $('input[name="quantity"]').val();

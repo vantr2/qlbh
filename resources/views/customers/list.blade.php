@@ -56,8 +56,8 @@
                             class="form-control search-box-number ms-2">
 
                         {{-- Search workplace --}}
-                        <label for="search_workplace" class="fw-bold ms-4">{{ __('Workplace') }}</label>
-                        <select id="search_workplace" class="form-control form-select ms-2 w-auto">
+                        <label for="search_workplace" class="fw-bold ms-4 me-2">{{ __('Workplace') }}</label>
+                        <select id="search_workplace" class="form-control form-select selectpicker ms-2 w-auto">
                             <option value="">{{ __('Please choose ...') }}</option>
                             @foreach ($companies as $company)
                                 <option value="{{ $company->id }}">{{ $company->name }}</option>

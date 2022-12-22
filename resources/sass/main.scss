@@ -38,3 +38,16 @@ td {
     width: 8rem;
     text-align: center;
 }
+
+.select2-container--bootstrap-5 .select2-selection {
+    font-size: 0.875rem !important;
+    min-height: calc(1.5em + 0.75rem + 4px) !important;
+    padding-top: 0.4375rem !important;
+    padding-bottom: 0.4375rem !important;
+    min-width: 12rem !important;
+}
+
+.select2-container--bootstrap-5.select2-container--focus .select2-selection,
+.select2-container--bootstrap-5.select2-container--open .select2-selection {
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 0%) !important;
+}
