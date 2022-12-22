@@ -5,8 +5,10 @@ namespace App\Http\Requests;
 use App\Helpers\Utils;
 use App\Models\Customer;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Validation\Rule;
 
 class OrderRequest extends FormRequest
@@ -44,9 +46,12 @@ class OrderRequest extends FormRequest
     {
         $this->request->remove('_token');
         Utils::attachUserAction($this);
+
+        $orderDate = DateTime::createFromFormat('d/m/Y', $this->order_date);
         $this->merge([
             'details' => $this->constructDetailData(),
             'total' => intval(str_replace(',', '', $this->total)),
+            'order_date' => $orderDate->format('Y-m-d'),
         ]);
         $this->request->remove('detail_data');
     }

@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use DateTime;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -139,13 +140,13 @@ class OrderService
                 if (request()->has('search_date_from')) {
                     $from = request('search_date_from');
                     if ($from) {
-                        $query->where('order_date', '>=', $from);
+                        $query->where('order_date', '>=', (DateTime::createFromFormat('d/m/Y', $from))->format('Y-m-d'));
                     }
                 }
                 if (request()->has('search_date_to')) {
                     $to = request('search_date_to');
                     if ($to) {
-                        $query->where('order_date', '<=', $to);
+                        $query->where('order_date', '<=', (DateTime::createFromFormat('d/m/Y', $to))->format('Y-m-d'));
                     }
                 }
             })

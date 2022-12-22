@@ -64,11 +64,11 @@
 
                             {{-- Search order date --}}
                             <label for="search_date_from" class="ms-4 fw-bold">{{ __('Date') }}</label>
-                            <input type="date" id="search_date_from" value=""
-                                class="form-control search-box-date ms-2">
+                            <input type="text" id="search_date_from" value="" autocomplete="off" readonly
+                                class="form-control search-box-date ms-2 datepicker">
                             <span class="ms-2">~</span>
-                            <input type="date" id="search_date_to" value=""
-                                class="form-control search-box-date ms-2">
+                            <input type="text" id="search_date_to" value="" autocomplete="off" readonly
+                                class="form-control search-box-date ms-2 datepicker">
 
                             <button type="button" class="btn btn-primary ms-4" onclick="applySearch()">
                                 <i class="fa-solid fa-circle-right"></i>

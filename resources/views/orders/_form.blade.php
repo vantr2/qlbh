@@ -35,9 +35,9 @@
         <div class="col-6">
             <div class="mb-3">
                 <label for="order_date" class="form-label">{{ __('Order Date') }}</label>
-                <input type="date" class="form-control @error('order_date') is-invalid @enderror" id="order_date"
-                    name="order_date"
-                    value="{{ old('order_date', isset($orderInfo) ? $orderInfo->order_date->format('Y-m-d') : '') }}">
+                <input type="text" class="form-control datepicker @error('order_date') is-invalid @enderror"
+                    id="order_date" name="order_date" autocomplete="off" readonly
+                    value="{{ old('order_date', isset($orderInfo) ? $orderInfo->order_date->format('d/m/Y') : '') }}">
                 @error('order_date')
                     <div class="invalid-feedback">
                         {{ $message }}

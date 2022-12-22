@@ -56,9 +56,10 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="birthday" class="form-label">{{ __('Birthday') }}</label>
-                                <input type="date" class="form-control @error('birthday') is-invalid @enderror"
-                                    id="birthday" name="birthday"
-                                    value="{{ old('birthday', $customerInfo->birthday->format('Y-m-d')) }}">
+                                <input type="text"
+                                    class="form-control datepicker @error('birthday') is-invalid @enderror" id="birthday"
+                                    name="birthday" autocomplete="off" readonly
+                                    value="{{ old('birthday', $customerInfo->birthday->format('d/m/Y')) }}">
 
                                 @error('birthday')
                                     <div class="invalid-feedback">

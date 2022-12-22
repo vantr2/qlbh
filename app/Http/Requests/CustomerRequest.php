@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Helpers\Utils;
 use App\Models\Customer;
+use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -51,5 +52,10 @@ class CustomerRequest extends FormRequest
     {
         $this->request->remove('_token');
         Utils::attachUserAction($this);
+
+        $birthday = DateTime::createFromFormat('d/m/Y', $this->birthday);
+        $this->merge([
+            'birthday' => $birthday->format('Y-m-d'),
+        ]);
     }
 }
