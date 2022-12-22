@@ -11047,7 +11047,8 @@ td {
   background: transparent;
 }
 
-.search-box-number {
+.search-box-number,
+.search-box-date {
   width: 8rem;
   text-align: center;
 }

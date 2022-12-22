@@ -46,6 +46,7 @@ class OrderRequest extends FormRequest
         Utils::attachUserAction($this);
         $this->merge([
             'details' => $this->constructDetailData(),
+            'total' => intval(str_replace(',', '', $this->total)),
         ]);
         $this->request->remove('detail_data');
     }

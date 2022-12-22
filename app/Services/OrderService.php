@@ -5,9 +5,11 @@ namespace App\Services;
 use App\Exports\ErrorWhenImport;
 use App\Helpers\Utils;
 use App\Models\Company;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
@@ -89,7 +91,7 @@ class OrderService
     {
         return DataTables::of(Order::query()->with('customer'))
             ->addColumn('customer_name', function ($order) {
-                if($order->customer){
+                if ($order->customer) {
                     return $order->customer->first_name . ' ' . $order->customer->last_name;
                 }
                 return null;
@@ -101,16 +103,52 @@ class OrderService
                     'confirmDeleteOrder(this)'
                 );
             })
+            ->editColumn('total', function ($order) {
+                return number_format($order->total) . ' VND';
+            })
             ->editColumn('order_date', function ($order) {
                 return Utils::formatDate($order->order_date);
             })
-            ->editColumn('created_by', function($order){
+            ->editColumn('created_by', function ($order) {
                 return Utils::actionUser($order->created_by);
             })
-            ->editColumn('updated_by', function($order){
+            ->editColumn('updated_by', function ($order) {
                 return Utils::actionUser($order->updated_by);
             })
             ->rawColumns(['action'])
+            ->filter(function ($query) {
+                if (request()->has('search_customer')) {
+                    if (request('search_customer')) {
+                        $query->where('customer_id', '=', request('search_customer'));
+                    }
+                }
+
+                if (request()->has('search_total_from')) {
+                    $from = request('search_total_from');
+                    if ($from) {
+                        $query->where('total', '>=', intval($from));
+                    }
+                }
+                if (request()->has('search_total_to')) {
+                    $to = request('search_total_to');
+                    if ($to) {
+                        $query->where('total', '<=', intval($to));
+                    }
+                }
+
+                if (request()->has('search_date_from')) {
+                    $from = request('search_date_from');
+                    if ($from) {
+                        $query->where('order_date', '>=', $from);
+                    }
+                }
+                if (request()->has('search_date_to')) {
+                    $to = request('search_date_to');
+                    if ($to) {
+                        $query->where('order_date', '<=', $to);
+                    }
+                }
+            })
             ->make(true);
     }
 
@@ -130,6 +168,24 @@ class OrderService
         (new ErrorWhenImport($failures))->store($filePath . '/' . $fileName);
 
         return $fileName;
+    }
+
+    /**
+     * Get customer list
+     *
+     * @return Customer[]
+     */
+    public function getCustomerList()
+    {
+        $me = Auth::user();
+        if ($me->isAdmin()) {
+            $customers = Customer::all();
+        } else {
+            $customers = Customer::with('beApplied')->where([
+                ['user_ids', 'all', [$me->id]]
+            ])->get();
+        }
+        return $customers;
     }
 
     /**

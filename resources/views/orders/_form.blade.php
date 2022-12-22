@@ -35,8 +35,8 @@
             <div class="mb-3">
                 <label for="order_date" class="form-label">{{ __('Order Date') }}</label>
                 <input type="date" class="form-control @error('order_date') is-invalid @enderror" id="order_date"
-                    name="order_date" value="{{ old('order_date', isset($orderInfo) ? $orderInfo : '') }}">
-
+                    name="order_date"
+                    value="{{ old('order_date', isset($orderInfo) ? $orderInfo->order_date->format('Y-m-d') : '') }}">
                 @error('order_date')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -114,7 +114,7 @@
         <div class="col-3  mt-3 total-container">
             <strong>{{ __('Total: ') }}</strong>
             <input type="text" readonly name="total" class="form-control"
-                value="{{ old('total', isset($orderInfo) ? $orderInfo->total : '0') }}">
+                value="{{ old('total', isset($orderInfo) ? number_format($orderInfo->total) : '0') }}">
         </div>
     </div>
     <div class="d-flex mt-4">
@@ -292,7 +292,7 @@
                 total += item.amount;
             });
 
-            $('input[name="total"]').val(total);
+            $('input[name="total"]').val(numberWithCommas(total));
         }
 
         function initalData() {
@@ -309,6 +309,10 @@
                 addProduct(item);
             });
             syncTotal();
+        }
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
         $(function() {

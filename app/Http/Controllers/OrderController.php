@@ -73,7 +73,8 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        return view('orders.list');
+        $customers = $this->orderService->getCustomerList();
+        return view('orders.list', compact('customers'));
     }
 
     /**
@@ -94,14 +95,7 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
-        $me = Auth::user();
-        if ($me->isAdmin()) {
-            $customers = Customer::all();
-        } else {
-            $customers = Customer::with('beApplied')->where([
-                ['user_ids', 'all', [$me->id]]
-            ])->get();
-        }
+        $customers = $this->orderService->getCustomerList();
         $products = Product::all();
         return view('orders.create', compact('customers', 'products'));
     }
@@ -137,14 +131,7 @@ class OrderController extends Controller
      */
     public function detail(Request $request)
     {
-        $me = Auth::user();
-        if ($me->isAdmin()) {
-            $customers = Customer::all();
-        } else {
-            $customers = Customer::with('user_ids')->where([
-                ['user_ids', 'all', [$me->id]]
-            ])->get();
-        }
+        $customers = $this->orderService->getCustomerList();
 
         $products = Product::all();
         $orderInfo = $this->orderService->getDetail($request->id);

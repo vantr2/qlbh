@@ -55,7 +55,7 @@
                         <input type="number" min="0" id="search_age_to" value=""
                             class="form-control search-box-number ms-2">
 
-                        {{-- Search customer name --}}
+                        {{-- Search workplace --}}
                         <label for="search_workplace" class="fw-bold ms-4">{{ __('Workplace') }}</label>
                         <select id="search_workplace" class="form-control form-select ms-2 w-auto">
                             <option value="">{{ __('Please choose ...') }}</option>
@@ -117,7 +117,6 @@
                         data.search_name = $('#search_name').val();
                         data.search_age_from = $('#search_age_from').val();
                         data.search_age_to = $('#search_age_to').val();
-                        console.log($('#search_workplace').val());
                         data.search_workplace = $('#search_workplace').val();
                     }
                 },

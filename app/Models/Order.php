@@ -10,6 +10,7 @@ class Order extends EloquentModel
     protected $connection = 'mongodb';
     protected $collection = 'orders';
 
+    protected $dates = ['order_date'];
     public const IMPORT_MAX_PRODUCT = 20;
 
     protected $fillable = [
