@@ -39,7 +39,7 @@
                             <strong class="me-1">{{ __('Birthday') }}:</strong>
                         </div>
                         <div class="col-9">
-                            <span>{{ $customerInfo->birthday->format('d/m/Y') ?? '' }}</span>
+                            <span>{{ $customerInfo->birthday ? $customerInfo->birthday->format('d/m/Y') : '' }}</span>
                         </div>
                     </div>
 
@@ -56,7 +56,7 @@
                             <strong class="me-1">{{ __('Type') }}:</strong>
                         </div>
                         <div class="col-9">
-                            <span>{{ $customerInfo->typeToText() ?? '' }}</span>
+                            <span>{{ $customerInfo->typeToText() }}</span>
                         </div>
                     </div>
                     <div class="row mb-3">

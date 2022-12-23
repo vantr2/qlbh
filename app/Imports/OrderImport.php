@@ -78,10 +78,22 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation
 
     public function rules(): array
     {
-        return [
-            '*.customer_id' => ['required'],
+        $orderValidation = [
+            '*.customer_id' => ['required', 'string'],
             '*.order_date' => ['required', 'date'],
         ];
+
+        $productValidation = [];
+        for ($index = 2;; $index++) {
+            if ($index > Order::IMPORT_MAX_PRODUCT) {
+                break;
+            }
+
+            // match regex ex: <name>;<price>;<quantity>
+            $productValidation['*.' . $index] = ['nullable', "regex:/((?=.{1,100}$)[a-zA-Z0-9]+(?:['_.\s][a-zA-Z0-9]+)*(;)([1-9][0-9]{0,10})(;)([1-9][0-9]{0,8}))/u"];
+        }
+
+        return array_merge($orderValidation, $productValidation);
     }
 
     /**
@@ -90,7 +102,7 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation
     public function customValidationMessages()
     {
         return [
-            '*.customer_id.gt' => 'This customer does not exist.',
+            '*.customer_id.string' => 'This customer does not exist.',
         ];
     }
 
@@ -111,6 +123,7 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation
                 return false;
             }
         });
+        Log::debug($customerId);
         $data['customer_id'] = $customerId;
 
         return $data;

@@ -1,4 +1,5 @@
 <form action="{{ route('orders.store') }}" method="post">
+    <input type="hidden" id="require-list" value="customer_id,order_date">
     @csrf
     @if (isset($orderInfo))
         <input type="hidden" name="_id" value="{{ $orderInfo->id }}">
