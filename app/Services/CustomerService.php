@@ -109,7 +109,7 @@ class CustomerService
                 return $customer->genderToText();
             })
             ->editColumn('birthday', function ($customer) {
-                return $customer->birthday ? Utils::formatDate($customer->birthday) : '';
+                return $customer->birthday ? $customer->birthday->format('d/m/Y') : '';
             })
             ->editColumn('type', function ($customer) {
                 return $customer->typeToText();

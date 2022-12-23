@@ -18,7 +18,7 @@ class OrderExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMappin
 
     public function query()
     {
-        return Order::query()->with('customer');
+        return Order::query()->with('customer')->orderBy('updated_at', 'desc');
     }
 
     /**
@@ -29,11 +29,11 @@ class OrderExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMappin
         return [
             [
                 $order->customer ? $order->customer->first_name . ' ' . $order->customer->last_name : '',
-                $order->total,
-                $order->order_date,
-                Utils::formatDate($order->created_at),
+                $order->total ?? 0,
+                $order->order_date ?? '',
+                $order->created_at->format('d/m/Y H:i:s'),
                 Utils::actionUser($order->created_by),
-                Utils::formatDate($order->updated_at),
+                $order->updated_at->format('d/m/Y H:i:s'),
                 Utils::actionUser($order->updated_by),
             ],
         ];

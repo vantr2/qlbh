@@ -4,6 +4,7 @@
 @endphp
 @section('content')
     <div>
+        <input type="hidden" id="require-list" value="first_name,last_name,company_id">
         <div class="card">
             <div class="card-header py-3">
                 <h4 class="mb-0">{{ __('Create Customer') }}</h4>
