@@ -4,6 +4,7 @@
 @endphp
 @section('content')
     <div>
+        <input type="hidden" id="require-list" value="first_name,last_name,company_id">
         <div class="card">
             <div class="card-header py-3">
                 <h4 class="mb-0">{{ __('Update Customer') }}</h4>
@@ -44,7 +45,7 @@
                             <div class="mb-3">
                                 <label for="age" class="form-label">{{ __('Age') }}</label>
                                 <input type="number" class="form-control @error('age') is-invalid @enderror" id="age"
-                                    name="age" value="{{ old('age', $customerInfo->age) }}">
+                                    name="age" value="{{ old('age', $customerInfo->age ?? '') }}">
                                 @error('age')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -59,7 +60,7 @@
                                 <input type="text"
                                     class="form-control datepicker @error('birthday') is-invalid @enderror" id="birthday"
                                     name="birthday" autocomplete="off" readonly
-                                    value="{{ old('birthday', $customerInfo->birthday->format('d/m/Y')) }}">
+                                    value="{{ old('birthday', $customerInfo->birthday ? $customerInfo->birthday->format('d/m/Y') : '') }}">
 
                                 @error('birthday')
                                     <div class="invalid-feedback">
@@ -96,7 +97,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="address" class="form-label">{{ __('Address') }}</label>
-                                <textarea class="form-control @error('address') is-invalid @enderror" id="address" rows="2" name="address">{{ old('address', $customerInfo->address) }}</textarea>
+                                <textarea class="form-control @error('address') is-invalid @enderror" id="address" rows="2" name="address">{{ old('address', $customerInfo->address ?? '') }}</textarea>
                                 @error('address')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -108,7 +109,8 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="type" class="form-label">{{ __('Type') }}</label>
-                                <select name="type" class='form-select form-control selectpicker-no-search @error('type') is-invalid @enderror'>
+                                <select name="type"
+                                    class='form-select form-control selectpicker-no-search @error('type') is-invalid @enderror'>
                                     <option value="">{{ __('Please choose...') }}</option>
                                     <option value="{{ Customer::VIP }}"
                                         {{ old('type', $customerInfo->type) == Customer::VIP ? 'selected' : '' }}>
@@ -147,6 +149,8 @@
                                 @enderror
                             </div>
                         </div>
+
+                        @include('customers.assign_user')
                     </div>
                     <div class="d-flex mt-4">
                         <a class="btn btn-secondary px-3" href="{{ url()->previous() }}">{{ __('Back') }}</a>

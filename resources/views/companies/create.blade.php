@@ -2,6 +2,7 @@
 
 @section('content')
     <div>
+        <input type="hidden" id="require-list" value="name,address">
         <div class="card">
             <div class="card-header py-3">
                 <h4 class="mb-0">{{ __('Create Company') }}</h4>

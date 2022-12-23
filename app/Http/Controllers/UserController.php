@@ -33,8 +33,7 @@ class UserController extends Controller
             Route::get('/', [UserController::class, 'index'])->name('users.list');
             Route::get('/render-data', [UserController::class, 'renderData'])->name('users.render_data');
             Route::get('/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
-            Route::get('/setting/{id}', [UserController::class, 'setting'])->name('users.setting');
-            Route::post('/apply-setting', [UserController::class, 'applySetting'])->name('users.apply_setting');
+            Route::post('/change-role', [UserController::class, 'changeRole'])->name('users.change_role');
         });
     }
 
@@ -90,31 +89,17 @@ class UserController extends Controller
     }
 
     /**
-     * Go to setting user page
-     *
-     * @param  Request $request
-     * @return View
-     */
-    public function setting(Request $request)
-    {
-        $customers = $this->userService->customerListWithSetting();
-        $userId = $request->id;
-
-        return view('users.setting', compact('customers', 'userId'));
-    }
-
-    /**
      * Save setting for selected user
      *
-     * @param  SettingRequest $request
+     * @param  Request $request
      * @return RedirectResponse
      */
-    public function applySetting(SettingRequest $request)
+    public function changeRole(Request $request)
     {
-        $isApplied = $this->userService->applyPermissionSetting($request->all());
+        $isChanged = $this->userService->changeRoleSetting($request->all());
 
-        if ($isApplied) {
-            return redirect()->route('users.list')->with('success', __('User has applied permission setting successfully'));
+        if ($isChanged) {
+            return redirect()->route('users.list')->with('success', __('User has change role setting successfully'));
         }
 
         return redirect()->route('users.list')->with('fail', __('An error occurs'));

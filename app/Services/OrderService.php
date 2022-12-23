@@ -108,7 +108,7 @@ class OrderService
                 return number_format($order->total) . ' VND';
             })
             ->editColumn('order_date', function ($order) {
-                return Utils::formatDate($order->order_date);
+                return $order->order_date ? $order->order_date->format('d/m/Y') : '';
             })
             ->editColumn('created_by', function ($order) {
                 return Utils::actionUser($order->created_by);
@@ -149,6 +149,9 @@ class OrderService
                         $query->where('order_date', '<=', (DateTime::createFromFormat('d/m/Y', $to))->format('Y-m-d'));
                     }
                 }
+            })
+            ->order(function ($query) {
+                $query->orderBy('updated_at', 'desc');
             })
             ->make(true);
     }

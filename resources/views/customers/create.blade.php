@@ -4,6 +4,7 @@
 @endphp
 @section('content')
     <div>
+        <input type="hidden" id="require-list" value="first_name,last_name,company_id">
         <div class="card">
             <div class="card-header py-3">
                 <h4 class="mb-0">{{ __('Create Customer') }}</h4>
@@ -138,6 +139,7 @@
                                 @enderror
                             </div>
                         </div>
+                        @include('customers.assign_user')
                     </div>
                     <div class="d-flex mt-4">
                         <a class="btn btn-secondary px-3" href="{{ url()->previous() }}">{{ __('Back') }}</a>

@@ -2,6 +2,7 @@
 
 @section('content')
     <div>
+        <input type="hidden" id="require-list" value="name,address">
         <div class="card">
             <div class="card-header py-3">
                 <h4 class="mb-0">{{ __('Update Company') }}</h4>
@@ -40,7 +41,7 @@
                                 <label for="established_year" class="form-label">{{ __('Established Year') }}</label>
                                 <input type="number" class="form-control @error('established_year') is-invalid @enderror"
                                     id="established_year" name="established_year"
-                                    value="{{ old('established_year', $companyInfo->established_year) }}">
+                                    value="{{ old('established_year', $companyInfo->established_year ?? '') }}">
                                 @error('established_year')
                                     <div class="invalid-feedback">
                                         {{ $message }}

@@ -39,8 +39,9 @@ class UserService
     {
         return DataTables::of(User::query())
             ->addColumn('action', function ($user) {
-                return $user->role == User::ADMIN ? '' : $this->renderActionHtml(
-                    route('users.setting', ['id' => $user->id]),
+                return $user->isSuperAdmin() ? '' : $this->renderActionHtml(
+                    json_encode($user->toArray()),
+                    route('users.change_role', ['id' => $user->id]),
                     route('users.delete', ['id' => $user->id]),
                     'confirmDeleteUser(this)'
                 );
@@ -77,6 +78,9 @@ class UserService
                     }
                 }
             })
+            ->order(function ($query) {
+                $query->orderBy('updated_at', 'desc');
+            })
             ->rawColumns(['action'])
             ->make(true);
     }
@@ -92,19 +96,20 @@ class UserService
     }
 
     /**
-     * Apply permission setting
+     * Change role setting
      *
      * @param  array $data
-     * @return bool true: applied | false: throw ex
+     * @return bool true: changed | false: fail
      */
-    public function applyPermissionSetting($data)
+    public function changeRoleSetting($data)
     {
         try {
-            $user = User::find($data['user_id']);
-            $user->permissions()->sync($data['permissions'] ?? []);
+            User::where('_id', $data['_id'])->update([
+                'role' => $data['role'],
+            ]);
             return true;
         } catch (Exception $ex) {
-            Log::error('applyPermissionSetting: ' . $ex);
+            Log::error('changeRoleSetting: ' . $ex);
         }
         return false;
     }
@@ -112,17 +117,18 @@ class UserService
     /**
      * Render action html include setting, delete button 
      *
-     * @param  string $settingRoute
+     * @param  string $userData
+     * @param  string $changeRoleRoute
      * @param  string $deleteRoute
      * @param  string $deleteFunction
      * @return string html 
      */
-    private function renderActionHtml($settingRoute, $deleteRoute, $deleteFunction)
+    private function renderActionHtml($userData, $changeRoleRoute, $deleteRoute, $deleteFunction)
     {
         return "
         <div class='d-flex justify-content-center align-items-center'>
-            <a href='$settingRoute'
-                class='btn btn-secondary me-2'>" . __('Setting') . "</a>
+            <button data-href='$changeRoleRoute' data-user='$userData'
+                class='btn btn-secondary me-2' onclick='showChangeRolePopup(this)'>" . __('Change Role') . "</button>
             <button data-href='$deleteRoute'
                 onclick='$deleteFunction'
                 class='btn btn-danger delete-action'>" . __('Delete') . "</button>

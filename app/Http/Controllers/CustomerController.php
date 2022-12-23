@@ -9,6 +9,7 @@ use App\Http\Requests\ImportExcelRequest;
 use App\Imports\CustomerImport;
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\User;
 use App\Services\CustomerService;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -38,7 +39,7 @@ class CustomerController extends Controller
         Route::prefix('customers')->group(function () {
             Route::get('/', [CustomerController::class, 'index'])->name('customers.list');
             Route::get('/render-data', [CustomerController::class, 'renderData'])->name('customers.render_data');
-            Route::get('/create', [CustomerController::class, 'create'])->name('customers.create')->middleware('admin');
+            Route::get('/create', [CustomerController::class, 'create'])->name('customers.create');
             Route::get('/view/{id}', [CustomerController::class, 'view'])->name('customers.view');
             Route::post('/store', [CustomerController::class, 'store'])->name('customers.store');
             Route::get('/detail/{id}', [CustomerController::class, 'detail'])->name('customers.detail');
@@ -94,7 +95,8 @@ class CustomerController extends Controller
     public function create(Request $request)
     {
         $companies = Company::all();
-        return view('customers.create', compact('companies'));
+        $users = User::where('role', User::NORMAL_USER)->get();
+        return view('customers.create', compact('companies', 'users'));
     }
 
     /**
@@ -137,8 +139,9 @@ class CustomerController extends Controller
     public function detail(Request $request)
     {
         $companies = Company::all();
+        $users = User::where('role', User::NORMAL_USER)->get();
         $customerInfo = $this->customerService->getDetail($request->id);
-        return view('customers.detail', compact('customerInfo', 'companies'));
+        return view('customers.detail', compact('customerInfo', 'companies', 'users'));
     }
 
     /**
