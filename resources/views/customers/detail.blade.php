@@ -149,6 +149,8 @@
                                 @enderror
                             </div>
                         </div>
+
+                        @include('customers.assign_user')
                     </div>
                     <div class="d-flex mt-4">
                         <a class="btn btn-secondary px-3" href="{{ url()->previous() }}">{{ __('Back') }}</a>

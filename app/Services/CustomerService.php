@@ -25,13 +25,21 @@ class CustomerService
     public function store($data)
     {
         try {
+            $assgineeData = $data['user_ids'];
+            unset($data['user_ids']);
+
             if (isset($data['_id'])) {
                 $id = $data['_id'];
                 unset($data['_id']);
                 Customer::where('_id', $id)->update($data);
+
+                $customer = Customer::find($id);
             } else {
-                Customer::create($data);
+                $customer = Customer::create($data);
             }
+
+            $customer->beApplied()->sync($assgineeData);
+
             return true;
         } catch (Exception $ex) {
             Log::error('storeCustomer: ' . $ex);
