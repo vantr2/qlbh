@@ -26,7 +26,7 @@ class CustomerFactory extends Factory
         ];
 
         $gender = fake()->numberBetween(1, 3);
-        $userId = fake()->randomElement(User::where('role', User::ADMIN)->get()->pluck('_id'));
+        $userId = fake()->randomElement(User::whereIn('role', [User::ADMIN, User::SUPER_ADMIN])->get()->pluck('_id'));
 
         return [
             'first_name' => fake()->firstName([$genderToText[$gender]]),
