@@ -150,6 +150,9 @@ class OrderService
                     }
                 }
             })
+            ->order(function ($query) {
+                $query->orderBy('updated_at', 'desc');
+            })
             ->make(true);
     }
 

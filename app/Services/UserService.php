@@ -77,6 +77,9 @@ class UserService
                     }
                 }
             })
+            ->order(function ($query) {
+                $query->orderBy('updated_at', 'desc');
+            })
             ->rawColumns(['action'])
             ->make(true);
     }
