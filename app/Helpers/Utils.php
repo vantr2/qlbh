@@ -13,12 +13,21 @@ class Utils
      * @param  string $updateRoute
      * @param  string $deleteRoute
      * @param  string $deleteFunction
+     * @param  string $viewButton
      * @return string html 
      */
-    public static function renderActionHtml($updateRoute, $deleteRoute, $deleteFunction)
+    public static function renderActionHtml($updateRoute, $deleteRoute, $deleteFunction, $viewRoute = '')
     {
+        $viewButton = '';
+        if ($viewRoute) {
+            $viewButton = "
+                <a href='$viewRoute'
+                    class='btn btn-primary me-2'>" . __('View') . "</a>
+            ";
+        }
         return "
         <div class='d-flex justify-content-center align-items-center'>
+            $viewButton
             <a href='$updateRoute'
                 class='btn btn-warning me-2'>" . __('Update') . "</a>
             <button data-href='$deleteRoute'

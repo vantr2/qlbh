@@ -322,10 +322,14 @@ a[data-toggle="collapse"] {
 	font-size: 21px;
 }
 
-.datepicker .datepicker-switch-alt {
+.datepicker .datepicker-switch {
 	font-size: 24px;
 	font-weight: 400;
 	transition: 0.3s;
+
+	&:hover, &:focus{
+		background-color: transparent;
+	}
 }
 
 .datepicker table tr td span {

@@ -72,4 +72,9 @@ class Customer extends EloquentModel
     {
         return $this->belongsToMany(User::class, null, 'customer_ids', 'user_ids');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

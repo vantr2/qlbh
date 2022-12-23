@@ -62,7 +62,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-         function initSelectPicker() {
+        function initSelectPicker() {
             $('.selectpicker').select2({
                 theme: "bootstrap-5",
                 dropdownCssClass: "select2--small",
@@ -90,8 +90,8 @@
                 todayBtn: true,
                 todayHighlight: true,
             }).on('show', function() {
-                $('.datepicker-days').find('.datepicker-switch')
-                    .addClass('datepicker-switch-alt').removeClass('datepicker-switch');
+                // $('.datepicker-days').find('.datepicker-switch')
+                //     .addClass('datepicker-switch-alt').removeClass('datepicker-switch');
             });
 
             $('.selectpicker').select2({
@@ -105,6 +105,13 @@
                 minimumResultsForSearch: -1,
             });
 
+            $('#sidebarCollapse').click(function() {
+                if ($('#sidebar').hasClass('active')) {
+                    $('#sidebar').removeClass('active')
+                } else {
+                    $('#sidebar').addClass('active')
+                }
+            })
         })(jQuery);
     </script>
 

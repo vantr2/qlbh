@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Yajra\DataTables\DataTables;
 
 class CustomerService
@@ -39,14 +40,15 @@ class CustomerService
     }
 
     /**
-     * Get customer detail
+     * Get customer detail and order list of this customer
      *
      * @param  string $id
      * @return Customer
+     * @throws NotFoundHttpException
      */
     public function getDetail($id)
     {
-        return Customer::findOrFail($id);
+        return Customer::with('company', 'orders')->findOrFail($id);
     }
 
     /**
@@ -96,7 +98,8 @@ class CustomerService
                 return Utils::renderActionHtml(
                     route('customers.detail', ['id' => $customer->id]),
                     route('customers.delete', ['id' => $customer->id]),
-                    'confirmDeleteCustomer(this)'
+                    'confirmDeleteCustomer(this)',
+                    route('customers.view', ['id' => $customer->id])
                 );
             })
             ->editColumn('age', function ($customer) {

@@ -39,6 +39,7 @@ class CustomerController extends Controller
             Route::get('/', [CustomerController::class, 'index'])->name('customers.list');
             Route::get('/render-data', [CustomerController::class, 'renderData'])->name('customers.render_data');
             Route::get('/create', [CustomerController::class, 'create'])->name('customers.create')->middleware('admin');
+            Route::get('/view/{id}', [CustomerController::class, 'view'])->name('customers.view');
             Route::post('/store', [CustomerController::class, 'store'])->name('customers.store');
             Route::get('/detail/{id}', [CustomerController::class, 'detail'])->name('customers.detail');
             Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('customers.delete')->middleware('admin');
@@ -113,6 +114,18 @@ class CustomerController extends Controller
         }
 
         return redirect()->route('customers.list')->with('fail', __('An error occurs'));
+    }
+
+    /**
+     * Go to view page
+     *
+     * @param  Request $request
+     * @return View
+     */
+    public function view(Request $request)
+    {
+        $customerInfo = $this->customerService->getDetail($request->id);
+        return view('customers.view', compact('customerInfo'));
     }
 
     /**

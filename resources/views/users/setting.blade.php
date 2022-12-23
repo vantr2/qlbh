@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="d-flex mt-4">
-                        <a class="btn btn-secondary px-3" href="{{ route('users.list') }}">{{ __('Back') }}</a>
+                        <a class="btn btn-secondary px-3" href="{{ url()->previous() }}">{{ __('Back') }}</a>
                         <button type="submit" class="btn btn-primary ms-2">{{ __('Apply') }}</button>
                     </div>
                 </form>
