@@ -14,6 +14,7 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -125,6 +126,11 @@ class CustomerController extends Controller
     public function view(Request $request)
     {
         $customerInfo = $this->customerService->getDetail($request->id);
+
+        if ($this->authorize('view', $customerInfo)) {
+            abort(403);
+        }
+
         return view('customers.view', compact('customerInfo'));
     }
 
@@ -138,6 +144,11 @@ class CustomerController extends Controller
     {
         $companies = Company::all();
         $customerInfo = $this->customerService->getDetail($request->id);
+
+        if (Auth::user()->can('view', $customerInfo)) {
+            abort(403);
+        }
+
         return view('customers.detail', compact('customerInfo', 'companies'));
     }
 
