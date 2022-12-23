@@ -43,7 +43,7 @@ class CustomerController extends Controller
             Route::get('/view/{id}', [CustomerController::class, 'view'])->name('customers.view');
             Route::post('/store', [CustomerController::class, 'store'])->name('customers.store');
             Route::get('/detail/{id}', [CustomerController::class, 'detail'])->name('customers.detail');
-            Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('customers.delete')->middleware('admin');
+            Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('customers.delete');
             Route::get('/export', [CustomerController::class, 'export'])->name('customers.export')->middleware('admin');
             Route::get('/download-sample', [CustomerController::class, 'downloadSample'])->name('customers.download_sample')->middleware('admin');
             Route::get('/download-error-file/{file_name}', [CustomerController::class, 'downloadErrorFile'])->name('customers.download_error_file')->middleware('admin');
@@ -127,6 +127,10 @@ class CustomerController extends Controller
     public function view(Request $request)
     {
         $customerInfo = $this->customerService->getDetail($request->id);
+        if (!$this->authorize('view', $customerInfo)) {
+            abort(403);
+        };
+
         return view('customers.view', compact('customerInfo'));
     }
 
@@ -138,9 +142,13 @@ class CustomerController extends Controller
      */
     public function detail(Request $request)
     {
+        $customerInfo = $this->customerService->getDetail($request->id);
+        if (!$this->authorize('update', $customerInfo)) {
+            abort(403);
+        };
+
         $companies = Company::all();
         $users = User::where('role', User::NORMAL_USER)->get();
-        $customerInfo = $this->customerService->getDetail($request->id);
         return view('customers.detail', compact('customerInfo', 'companies', 'users'));
     }
 
@@ -152,8 +160,11 @@ class CustomerController extends Controller
      */
     public function delete(Request $request)
     {
-        $isDeleted = $this->customerService->delete($request->id);
+        if (!$this->authorize('delete', Customer::findOrFail($request->id))) {
+            abort(403);
+        }
 
+        $isDeleted = $this->customerService->delete($request->id);
         if ($isDeleted) {
             return redirect()->route('customers.list')->with('success', __('Customer has deleted successful'));
         }
