@@ -123,7 +123,6 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation
                 return false;
             }
         });
-        Log::debug($customerId);
         $data['customer_id'] = $customerId;
 
         return $data;

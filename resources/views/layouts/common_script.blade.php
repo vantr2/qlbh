@@ -7,8 +7,12 @@
     }
 
     function fillArteriskForLabel() {
-        var requireList = ($('#require-list').val()).split(',');
+        var rawData = $('#require-list').val();
+        if (!rawData) {
+            return false;
+        }
 
+        var requireList = (rawData).split(',');
         if (requireList.length > 0) {
             requireList.forEach(function(item) {
                 $(`[name=${item}`).parent().find('label').append(

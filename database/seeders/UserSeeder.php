@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Admin',
                 'password' => Hash::make(config('auth.admin.default_password')),
-                'role' => User::ADMIN,
+                'role' => User::SUPER_ADMIN,
             ]
         );
         User::factory()->count(20)->create();
