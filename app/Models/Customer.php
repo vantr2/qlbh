@@ -42,6 +42,11 @@ class Customer extends EloquentModel
         return $this->belongsTo(Company::class);
     }
 
+    public function scopeNameAsc($query)
+    {
+        $query->orderBy('first_name', 'asc');
+    }
+
     /**
      * Type to text
      *

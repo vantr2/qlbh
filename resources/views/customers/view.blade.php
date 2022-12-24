@@ -77,7 +77,7 @@
             </div>
 
             <div class="d-flex">
-                <a class="btn btn-secondary px-3 me-2" href="{{ url()->previous() }}">{{ __('Back') }}</a>
+                <a class="btn btn-secondary px-3 me-2" href="{{ route('customers.list') }}">{{ __('Back') }}</a>
                 <a class="btn btn-warning"
                     href="{{ route('customers.detail', ['id' => request('id')]) }}">{{ __('Update') }}</a>
             </div>

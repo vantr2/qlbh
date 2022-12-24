@@ -183,11 +183,11 @@ class OrderService
     {
         $me = Auth::user();
         if ($me->isAdmin()) {
-            $customers = Customer::all();
+            $customers = Customer::nameAsc()->get();
         } else {
             $customers = Customer::with('beApplied')->where([
                 ['user_ids', 'all', [$me->id]]
-            ])->get();
+            ])->nameAsc()->get();
         }
         return $customers;
     }

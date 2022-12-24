@@ -25,4 +25,9 @@ class Company extends EloquentModel
     {
         return $this->hasMany(Customer::class);
     }
+
+    public function scopeNameAsc($query)
+    {
+        $query->orderBy('name', 'asc');
+    }
 }

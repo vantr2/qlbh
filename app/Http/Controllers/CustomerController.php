@@ -72,7 +72,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $companies = Company::all();
+        $companies = Company::nameAsc()->get();
         return view('customers.list', compact('companies'));
     }
 
@@ -94,7 +94,7 @@ class CustomerController extends Controller
      */
     public function create(Request $request)
     {
-        $companies = Company::all();
+        $companies = Company::nameAsc()->get();
         $users = User::where('role', User::NORMAL_USER)->get();
         return view('customers.create', compact('companies', 'users'));
     }
@@ -147,7 +147,7 @@ class CustomerController extends Controller
             abort(403);
         };
 
-        $companies = Company::all();
+        $companies = Company::nameAsc()->get();
         $users = User::where('role', User::NORMAL_USER)->get();
         return view('customers.detail', compact('customerInfo', 'companies', 'users'));
     }
