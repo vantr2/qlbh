@@ -79,8 +79,11 @@ class ProductService
                     'confirmDeleteProduct(this)'
                 );
             })
-            ->editColumn('description', function ($product) {
-                return $product->description ?? '';
+            ->editColumn('created_at', function ($product) {
+                return $product->created_at->format('d/m/Y H:i:s');
+            })
+            ->editColumn('updated_at', function ($product) {
+                return $product->updated_at->format('d/m/Y H:i:s');
             })
             ->editColumn('created_by', function ($product) {
                 return Utils::actionUser($product->created_by);

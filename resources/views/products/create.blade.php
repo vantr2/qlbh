@@ -40,7 +40,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="description" class="form-label">{{ __('Description') }}</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" id="description" rows="3"
+                                <textarea class="form-control ckeditor @error('description') is-invalid @enderror" id="description" rows="10"
                                     name="description">{{ old('description', '') }}</textarea>
                                 @error('description')
                                     <div class="invalid-feedback">
@@ -52,7 +52,7 @@
 
                     </div>
                     <div class="d-flex mt-4">
-                        <a class="btn btn-secondary px-3" href="{{ route('product.list') }}">{{ __('Back') }}</a>
+                        <a class="btn btn-secondary px-3" href="{{ route('products.list') }}">{{ __('Back') }}</a>
                         <button type="submit" class="btn btn-primary ms-2">{{ __('Submit') }}</button>
                     </div>
                 </form>

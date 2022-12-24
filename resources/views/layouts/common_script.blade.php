@@ -66,6 +66,13 @@
             }
         })
 
+        CKEDITOR.replace($('textarea.ckeditor').attr('name'), {
+            language: 'en',
+            skin: 'bootstrapck',
+            filebrowserUploadUrl: "{{ route('ckeditor.image-upload', ['_token' => csrf_token()]) }}",
+            filebrowserUploadMethod: 'form'
+        });
+
         fillArteriskForLabel();
     })(jQuery);
 </script>

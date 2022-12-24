@@ -50,10 +50,10 @@ class UserService
                 return $user->roleToText();
             })
             ->editColumn('created_at', function ($user) {
-                return date('d-m-Y H:i:s', strtotime($user->created_at));
+                return $user->created_at->format('d/m/Y H:i:s');
             })
             ->editColumn('updated_at', function ($user) {
-                return date('d-m-Y H:i:s', strtotime($user->updated_at));
+                return $user->updated_at->format('d/m/Y H:i:s');
             })
             ->editColumn('created_by', function ($user) {
                 return Utils::actionUser($user->created_by);

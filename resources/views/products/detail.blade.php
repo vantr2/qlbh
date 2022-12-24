@@ -42,7 +42,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="description" class="form-label">{{ __('Description') }}</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" id="description" rows="3"
+                                <textarea class="form-control ckeditor @error('description') is-invalid @enderror" id="description" rows="3"
                                     name="description">{{ old('description', $productInfo->description) }}</textarea>
                                 @error('description')
                                     <div class="invalid-feedback">
