@@ -95,7 +95,7 @@ class CustomerController extends Controller
     public function create(Request $request)
     {
         $companies = Company::nameAsc()->get();
-        $users = User::where('role', User::NORMAL_USER)->get();
+        $users = User::where('role', User::NORMAL_USER)->nameAsc()->get();
         return view('customers.create', compact('companies', 'users'));
     }
 
@@ -148,7 +148,7 @@ class CustomerController extends Controller
         };
 
         $companies = Company::nameAsc()->get();
-        $users = User::where('role', User::NORMAL_USER)->get();
+        $users = User::where('role', User::NORMAL_USER)->nameAsc()->get();
         return view('customers.detail', compact('customerInfo', 'companies', 'users'));
     }
 

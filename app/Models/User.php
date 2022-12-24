@@ -59,6 +59,11 @@ class User extends Eloquent implements AuthenticatableContract
         return $this->belongsToMany(Customer::class, null, 'user_ids', 'customer_ids');
     }
 
+    public function scopeNameAsc($query)
+    {
+        $query->orderBy('name', 'asc');
+    }
+
     public function roleToText()
     {
         $roleText = [self::ADMIN => __('ADMIN'), self::NORMAL_USER => __('NORMAL'), self::SUPER_ADMIN => __('SUPER_ADMIN')];
