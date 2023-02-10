@@ -96,7 +96,7 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         $customers = $this->orderService->getCustomerList();
-        $products = Product::all();
+        $products = Product::nameAsc()->get();
         return view('orders.create', compact('customers', 'products'));
     }
 
@@ -133,7 +133,7 @@ class OrderController extends Controller
     {
         $customers = $this->orderService->getCustomerList();
 
-        $products = Product::all();
+        $products = Product::nameAsc()->get();
         $orderInfo = $this->orderService->getDetail($request->id);
         return view('orders.detail', compact('orderInfo', 'customers', 'products'));
     }

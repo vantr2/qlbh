@@ -15,6 +15,7 @@ class User extends Eloquent implements AuthenticatableContract
     use FixingFetchDateTime;
     use HasFactory;
 
+    const SUPER_ADMIN = -1;
     const ADMIN = 1;
     const NORMAL_USER = 2;
 
@@ -58,14 +59,24 @@ class User extends Eloquent implements AuthenticatableContract
         return $this->belongsToMany(Customer::class, null, 'user_ids', 'customer_ids');
     }
 
+    public function scopeNameAsc($query)
+    {
+        $query->orderBy('name', 'asc');
+    }
+
     public function roleToText()
     {
-        $roleText = [self::ADMIN => __('ADMIN'), self::NORMAL_USER => __('NORMAL')];
+        $roleText = [self::ADMIN => __('ADMIN'), self::NORMAL_USER => __('NORMAL'), self::SUPER_ADMIN => __('SUPER_ADMIN')];
         return $roleText[$this->role];
     }
 
     public function isAdmin()
     {
-        return $this->role == self::ADMIN;
+        return $this->role == self::ADMIN || $this->role == self::SUPER_ADMIN;
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->role == self::SUPER_ADMIN;
     }
 }

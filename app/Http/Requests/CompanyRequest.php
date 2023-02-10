@@ -29,7 +29,7 @@ class CompanyRequest extends FormRequest
         return [
             'name' => ['required', 'max:100'],
             'address' => ['required', 'max:200'],
-            'established_year' => ['numeric', 'min:0', 'max:' . date('Y')],
+            'established_year' => ['nullable', 'numeric', 'min:0', 'max:' . date('Y')],
         ];
     }
 

@@ -64,6 +64,7 @@
                 </table>
             </div>
         </div>
+        @include('users.change_role_popup')
     </div>
 @endsection
 
@@ -73,6 +74,28 @@
 
         function applySearch() {
             userTable.draw();
+        }
+
+        function showChangeRolePopup(element) {
+            var submitLink = $(element).data('href');
+            var userData = $(element).data('user');
+
+            $('#change_role_modal').find('form').attr('action', submitLink);
+            $('#change_role_modal').find('input[name="_id"]').val(userData._id);
+            $('#change_role_modal').find('.user-name').text(userData.name);
+            $('#change_role_modal').find('.user-email').text(userData.email);
+            $('#change_role_modal').find('select[name="role"] option').each(function() {
+                if ($(this).val() == userData.role) {
+                    $(this).prop('selected', 'selected');
+                }
+            });
+
+            $('#change_role_modal').modal('show');
+            $('.selectpicker-no-search').select2({
+                theme: "bootstrap-5",
+                dropdownCssClass: "select2--small",
+                minimumResultsForSearch: -1,
+            });
         }
 
         function confirmDeleteUser(element) {

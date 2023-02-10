@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CKEditorController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
@@ -28,6 +29,7 @@ Auth::routes();
 
 Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('home');
 Route::post('/profile/save', [App\Http\Controllers\HomeController::class, 'save'])->name('profile.save');
+Route::post('/ckeditor/upload', [CKEditorController::class, 'upload'])->name('ckeditor.image-upload');
 
 CompanyController::routes();
 CustomerController::routes();

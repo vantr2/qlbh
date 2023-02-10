@@ -9,6 +9,7 @@ use App\Http\Requests\ImportExcelRequest;
 use App\Imports\CustomerImport;
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\User;
 use App\Services\CustomerService;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -39,11 +40,11 @@ class CustomerController extends Controller
         Route::prefix('customers')->group(function () {
             Route::get('/', [CustomerController::class, 'index'])->name('customers.list');
             Route::get('/render-data', [CustomerController::class, 'renderData'])->name('customers.render_data');
-            Route::get('/create', [CustomerController::class, 'create'])->name('customers.create')->middleware('admin');
+            Route::get('/create', [CustomerController::class, 'create'])->name('customers.create');
             Route::get('/view/{id}', [CustomerController::class, 'view'])->name('customers.view');
             Route::post('/store', [CustomerController::class, 'store'])->name('customers.store');
             Route::get('/detail/{id}', [CustomerController::class, 'detail'])->name('customers.detail');
-            Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('customers.delete')->middleware('admin');
+            Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('customers.delete');
             Route::get('/export', [CustomerController::class, 'export'])->name('customers.export')->middleware('admin');
             Route::get('/download-sample', [CustomerController::class, 'downloadSample'])->name('customers.download_sample')->middleware('admin');
             Route::get('/download-error-file/{file_name}', [CustomerController::class, 'downloadErrorFile'])->name('customers.download_error_file')->middleware('admin');
@@ -72,7 +73,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $companies = Company::all();
+        $companies = Company::nameAsc()->get();
         return view('customers.list', compact('companies'));
     }
 
@@ -94,8 +95,9 @@ class CustomerController extends Controller
      */
     public function create(Request $request)
     {
-        $companies = Company::all();
-        return view('customers.create', compact('companies'));
+        $companies = Company::nameAsc()->get();
+        $users = User::where('role', User::NORMAL_USER)->nameAsc()->get();
+        return view('customers.create', compact('companies', 'users'));
     }
 
     /**
@@ -126,10 +128,9 @@ class CustomerController extends Controller
     public function view(Request $request)
     {
         $customerInfo = $this->customerService->getDetail($request->id);
-
-        if ($this->authorize('view', $customerInfo)) {
+        if (!$this->authorize('view', $customerInfo)) {
             abort(403);
-        }
+        };
 
         return view('customers.view', compact('customerInfo'));
     }
@@ -142,14 +143,14 @@ class CustomerController extends Controller
      */
     public function detail(Request $request)
     {
-        $companies = Company::all();
         $customerInfo = $this->customerService->getDetail($request->id);
-
-        if (Auth::user()->can('view', $customerInfo)) {
+        if (!$this->authorize('update', $customerInfo)) {
             abort(403);
-        }
+        };
 
-        return view('customers.detail', compact('customerInfo', 'companies'));
+        $companies = Company::nameAsc()->get();
+        $users = User::where('role', User::NORMAL_USER)->nameAsc()->get();
+        return view('customers.detail', compact('customerInfo', 'companies', 'users'));
     }
 
     /**
@@ -160,8 +161,11 @@ class CustomerController extends Controller
      */
     public function delete(Request $request)
     {
-        $isDeleted = $this->customerService->delete($request->id);
+        if (!$this->authorize('delete', Customer::findOrFail($request->id))) {
+            abort(403);
+        }
 
+        $isDeleted = $this->customerService->delete($request->id);
         if ($isDeleted) {
             return redirect()->route('customers.list')->with('success', __('Customer has deleted successful'));
         }

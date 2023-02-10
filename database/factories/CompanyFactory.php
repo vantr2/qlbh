@@ -17,7 +17,7 @@ class CompanyFactory extends Factory
      */
     public function definition()
     {
-        $userId = fake()->randomElement(User::where('role', User::ADMIN)->get()->pluck('_id'));
+        $userId = fake()->randomElement(User::whereIn('role', [User::ADMIN, User::SUPER_ADMIN])->get()->pluck('_id'));
         return [
             'name' => fake()->company,
             'address' => fake()->address,

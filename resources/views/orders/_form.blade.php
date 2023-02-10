@@ -1,4 +1,5 @@
 <form action="{{ route('orders.store') }}" method="post">
+    <input type="hidden" id="require-list" value="customer_id,order_date">
     @csrf
     @if (isset($orderInfo))
         <input type="hidden" name="_id" value="{{ $orderInfo->id }}">
@@ -120,7 +121,7 @@
         </div>
     </div>
     <div class="d-flex mt-4">
-        <a class="btn btn-secondary px-3" href="{{ url()->previous() }}">{{ __('Back') }}</a>
+        <a class="btn btn-secondary px-3" href="{{ route('orders.list') }}">{{ __('Back') }}</a>
         <button type="submit" class="btn btn-primary ms-2">{{ __('Submit') }}</button>
     </div>
 </form>

@@ -6,6 +6,7 @@ use App\Helpers\Utils;
 use App\Models\Customer;
 use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class CustomerRequest extends FormRequest
@@ -30,16 +31,18 @@ class CustomerRequest extends FormRequest
         return [
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
-            'age' => ['numeric', 'min:0'],
+            'age' => ['numeric', 'min:0', 'nullable'],
             'gender' => [
-                'required',
+                'nullable',
                 Rule::in([Customer::MALE, Customer::FEMALE, Customer::OTHER])
             ],
-            'birthday' => ['date', 'before:today'],
+            'birthday' => ['date', 'before:today', 'nullable'],
             'type' => [
+                'nullable',
                 Rule::in([Customer::VIP, Customer::NORMAL])
             ],
             'company_id' => ['required', 'exists:companies,_id'],
+            'user_ids' => ['array'],
         ];
     }
 
@@ -53,10 +56,23 @@ class CustomerRequest extends FormRequest
         $this->request->remove('_token');
         Utils::attachUserAction($this);
 
-        if($this->birthday){
+        if ($this->birthday) {
             $birthday = DateTime::createFromFormat('d/m/Y', $this->birthday);
             $this->merge([
                 'birthday' => $birthday->format('Y-m-d'),
+            ]);
+        }
+
+        $me = Auth::user();
+        if ($me->isAdmin()) {
+            if (!$this->user_ids) {
+                $this->merge([
+                    'user_ids' => [],
+                ]);
+            }
+        } else {
+            $this->merge([
+                'user_ids' => [$me->id]
             ]);
         }
     }

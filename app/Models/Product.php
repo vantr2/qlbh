@@ -25,4 +25,9 @@ class Product extends EloquentModel
     {
         return $this->hasMany(OrderDetail::class);
     }
+
+    public function scopeNameAsc($query)
+    {
+        $query->orderBy('name', 'asc');
+    }
 }

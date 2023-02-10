@@ -25,13 +25,21 @@ class CustomerService
     public function store($data)
     {
         try {
+            $assgineeData = $data['user_ids'];
+            unset($data['user_ids']);
+
             if (isset($data['_id'])) {
                 $id = $data['_id'];
                 unset($data['_id']);
                 Customer::where('_id', $id)->update($data);
+
+                $customer = Customer::find($id);
             } else {
-                Customer::create($data);
+                $customer = Customer::create($data);
             }
+
+            $customer->beApplied()->sync($assgineeData);
+
             return true;
         } catch (Exception $ex) {
             Log::error('storeCustomer: ' . $ex);
@@ -109,7 +117,7 @@ class CustomerService
                 return $customer->genderToText();
             })
             ->editColumn('birthday', function ($customer) {
-                return $customer->birthday ? Utils::formatDate($customer->birthday) : '';
+                return $customer->birthday ? $customer->birthday->format('d/m/Y') : '';
             })
             ->editColumn('type', function ($customer) {
                 return $customer->typeToText();
@@ -150,6 +158,9 @@ class CustomerService
                         $query->where('company_id', '=', request('search_workplace'));
                     }
                 }
+            })
+            ->order(function ($query) {
+                $query->orderBy('updated_at', 'desc');
             })
             ->rawColumns(['action'])
             ->make(true);

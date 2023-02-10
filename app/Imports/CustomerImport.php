@@ -38,11 +38,11 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
             Customer::create([
                 'first_name' => $row['first_name'],
                 'last_name' => $row['last_name'],
-                'age' => $row['age'],
-                'gender' => $row['gender'],
-                'address' => $row['address'],
-                'birthday' => date('Y-m-d', strtotime($row['birthday'])),
-                'type' => $row['type'],
+                'age' => $row['age'] ?? null,
+                'gender' => $row['gender'] ?? null,
+                'address' => $row['address'] ?? null,
+                'birthday' => $row['birthday'] ? date('Y-m-d', strtotime($row['birthday'])) : null,
+                'type' => $row['type'] ?? null,
                 'company_id' => $company->id,
                 'created_by' => $authUserId,
                 'updated_by' => $authUserId,
@@ -55,13 +55,14 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithValidation
         return [
             '*.first_name' => ['required'],
             '*.last_name' => ['required'],
-            '*.age' => ['numeric', 'min:0'],
+            '*.age' => ['nullable', 'numeric', 'min:0'],
             '*.gender' => [
-                'required',
+                'nullable',
                 Rule::in([Customer::MALE, Customer::FEMALE, Customer::OTHER])
             ],
-            '*.birthday' => ['date', 'before:today'],
+            '*.birthday' => ['nullable', 'date', 'before:today'],
             '*.type' => [
+                'nullable',
                 Rule::in([Customer::VIP, Customer::NORMAL])
             ],
             '*.workplace' => ['required', 'max:100'],

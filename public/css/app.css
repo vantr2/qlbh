@@ -11194,3 +11194,20 @@ td {
 .select2-container--bootstrap-5.select2-container--open .select2-selection {
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0) !important;
 }
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
+  font-size: 0.75rem !important;
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
+  width: 0.5rem !important;
+  height: 0.5rem !important;
+}
+
+.is-required {
+  font-size: 0.5rem;
+  margin-left: 0.15rem;
+  color: #dc3545;
+  height: auto;
+  vertical-align: top;
+}

@@ -17,7 +17,7 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        $userId = fake()->randomElement(User::all()->pluck('_id'));
+        $userId = fake()->randomElement(User::whereIn('role', [User::ADMIN, User::SUPER_ADMIN])->get()->pluck('_id'));
         return [
             'name' => fake()->numerify('Item ###'),
             'price' => intval(fake()->numberBetween(1, 100)) * intval(fake()->randomElement(['10000', '100000'])),

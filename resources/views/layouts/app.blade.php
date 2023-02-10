@@ -60,61 +60,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
         integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 
-    <script>
-        function initSelectPicker() {
-            $('.selectpicker').select2({
-                theme: "bootstrap-5",
-                dropdownCssClass: "select2--small",
-            });
-        }
-        (function($) {
-
-            "use strict";
-
-            var fullHeight = function() {
-
-                $('.js-fullheight').css('height', $(window).height());
-                $(window).resize(function() {
-                    $('.js-fullheight').css('height', $(window).height());
-                });
-
-            };
-            fullHeight();
-
-            initSelectPicker();
-            $('.datepicker').datepicker({
-                format: 'dd/mm/yyyy',
-                autoclose: true,
-                clearBtn: true,
-                todayBtn: true,
-                todayHighlight: true,
-            }).on('show', function() {
-                // $('.datepicker-days').find('.datepicker-switch')
-                //     .addClass('datepicker-switch-alt').removeClass('datepicker-switch');
-            });
-
-            $('.selectpicker').select2({
-                theme: "bootstrap-5",
-                dropdownCssClass: "select2--small",
-            });
-
-            $('.selectpicker-no-search').select2({
-                theme: "bootstrap-5",
-                dropdownCssClass: "select2--small",
-                minimumResultsForSearch: -1,
-            });
-
-            $('#sidebarCollapse').click(function() {
-                if ($('#sidebar').hasClass('active')) {
-                    $('#sidebar').removeClass('active')
-                } else {
-                    $('#sidebar').addClass('active')
-                }
-            })
-        })(jQuery);
-    </script>
-
+    @include('layouts.common_script')
     @stack('scripts')
 </body>
 

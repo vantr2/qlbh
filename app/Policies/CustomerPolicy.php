@@ -10,7 +10,14 @@ class CustomerPolicy
 {
     use HandlesAuthorization;
 
-    public function before($user, $ability)
+    /**
+     * Perform pre-authorization checks.
+     *
+     * @param  \App\Models\User  $user
+     * @param  string  $ability
+     * @return void|bool
+     */
+    public function before(User $user, $ability)
     {
         if ($user->isAdmin()) {
             return true;
@@ -37,7 +44,7 @@ class CustomerPolicy
      */
     public function view(User $user, Customer $customer)
     {
-        return $user->customers->contains($customer->id);
+        return in_array($customer->id, $user->customer_ids);
     }
 
     /**
@@ -48,7 +55,6 @@ class CustomerPolicy
      */
     public function create(User $user)
     {
-        //
     }
 
     /**
@@ -60,7 +66,7 @@ class CustomerPolicy
      */
     public function update(User $user, Customer $customer)
     {
-        //
+        return in_array($customer->id, $user->customer_ids);
     }
 
     /**
@@ -72,7 +78,7 @@ class CustomerPolicy
      */
     public function delete(User $user, Customer $customer)
     {
-        //
+        return in_array($customer->id, $user->customer_ids);
     }
 
     /**

@@ -39,7 +39,7 @@
                             <strong class="me-1">{{ __('Birthday') }}:</strong>
                         </div>
                         <div class="col-9">
-                            <span>{{ $customerInfo->birthday->format('d/m/Y') ?? '' }}</span>
+                            <span>{{ $customerInfo->birthday ? $customerInfo->birthday->format('d/m/Y') : '' }}</span>
                         </div>
                     </div>
 
@@ -56,7 +56,7 @@
                             <strong class="me-1">{{ __('Type') }}:</strong>
                         </div>
                         <div class="col-9">
-                            <span>{{ $customerInfo->typeToText() ?? '' }}</span>
+                            <span>{{ $customerInfo->typeToText() }}</span>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -77,7 +77,7 @@
             </div>
 
             <div class="d-flex">
-                <a class="btn btn-secondary px-3 me-2" href="{{ url()->previous() }}">{{ __('Back') }}</a>
+                <a class="btn btn-secondary px-3 me-2" href="{{ route('customers.list') }}">{{ __('Back') }}</a>
                 <a class="btn btn-warning"
                     href="{{ route('customers.detail', ['id' => request('id')]) }}">{{ __('Update') }}</a>
             </div>

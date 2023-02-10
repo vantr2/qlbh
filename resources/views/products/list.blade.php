@@ -50,9 +50,10 @@
                         <thead>
                             <tr>
                                 <th>{{ __('Product Name') }}</th>
-                                <th>{{ __('Description') }}</th>
                                 <th>{{ __('Price') }}</th>
+                                <th>{{ __('Created At') }}</th>
                                 <th>{{ __('Created By') }}</th>
+                                <th>{{ __('Updated At') }}</th>
                                 <th>{{ __('Updated By') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
@@ -98,16 +99,20 @@
                             name: 'name'
                         },
                         {
-                            data: 'description',
-                            name: 'description'
-                        },
-                        {
                             data: 'price',
                             name: 'price'
                         },
                         {
+                            data: 'created_at',
+                            name: 'created_at'
+                        },
+                        {
                             data: 'created_by',
                             name: 'created_by'
+                        },
+                        {
+                            data: 'updated_at',
+                            name: 'updated_at'
                         },
                         {
                             data: 'updated_by',

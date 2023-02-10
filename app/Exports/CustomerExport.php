@@ -17,7 +17,7 @@ class CustomerExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMap
 
     public function query()
     {
-        return Customer::query()->with('company');
+        return Customer::query()->with('company')->orderBy('updated_at', 'desc');
     }
 
     /**
@@ -28,16 +28,16 @@ class CustomerExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMap
         return [
             [
                 $customer->first_name . ' ' . $customer->last_name,
-                $customer->age,
+                $customer->age ?? '',
                 $customer->genderToText(),
-                Utils::formatDate($customer->birthday),
-                $customer->address,
+                $customer->birthday ? $customer->birthday->format('d/m/Y') : '',
+                $customer->address ?? '',
                 $customer->typeToText(),
                 $customer->company ? $customer->company->name : '',
                 $customer->company ? $customer->company->address : '',
-                Utils::formatDate($customer->created_at),
+                $customer->created_at ? $customer->created_at->format('d/m/Y H:i:s') : '',
                 Utils::actionUser($customer->created_by),
-                Utils::formatDate($customer->updated_at),
+                $customer->updated_at ? $customer->updated_at->format('d/m/Y H:i:s') : '',
                 Utils::actionUser($customer->updated_by),
             ],
         ];

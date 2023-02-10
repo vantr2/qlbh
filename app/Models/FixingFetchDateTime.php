@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DateTimeZone;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use MongoDB\BSON\UTCDateTime;
 
 trait FixingFetchDateTime
@@ -14,7 +17,8 @@ trait FixingFetchDateTime
     {
         if ($value instanceof UTCDateTime) {
             $date = $value->toDateTime();
-            return Carbon::parse($date->format($this->getDateFormat()));
+            $tz = new DateTimeZone(config('app.timezone'));
+            return Carbon::parse($date->setTimezone($tz)->format($this->getDateFormat()));
         }
 
         return parent::asDateTime($value);
